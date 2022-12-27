@@ -1,0 +1,48 @@
+<Project>
+	<!-- Unity Dependencies -->
+    <ItemGroup Condition="'$(NoModReferences)' != 'true'">
+        <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SpecificVersion>false</SpecificVersion>
+            <Private>false</Private>
+            <HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.dll</HintPath>
+        </Reference>
+		<Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.CoreModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.InputLegacyModule Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.InputLegacyModule.dll</HintPath>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.PhysicsModule.dll</HintPath>
+		</Reference>
+		<Reference Include="MelonLoader, Version=0.5.7.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>true</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\MelonLoader.dll</HintPath>
+		</Reference>
+		<Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\0Harmony.dll</HintPath>
+		</Reference>
+    </ItemGroup>
+	<!-- Game Dependencies -->
+	<ItemGroup Condition="'$(NoModReferences)' != 'true'">
+		<Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\Assembly-CSharp-firstpass.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+</Project>
