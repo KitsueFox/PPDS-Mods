@@ -61,23 +61,26 @@ namespace TestMod
         {
             GeneralManager generalManager = UnityEngine.Object.FindObjectOfType<GeneralManager>();
             //generalManager.ChangeDuck(-1);
-            DuckManager currentduck = generalManager.Ducks[generalManager.CurrentDuck].GetComponent<DuckManager>();
-            //instance.LoggerInstance.Msg(currentduck.duckID);
-            instance.LoggerInstance.Msg(generalManager.CurrentDuck);
-            if (currentduck.IsInSeasonContainer)
+            generalManager.ChangeDuck(0);
+            instance.LoggerInstance.Msg(generalManager.Ducks.Count);
+            for (int i=0; i<=generalManager.Ducks.Count; i++)
             {
-                generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
-                currentduck.OnSeasonClick();
-                instance.LoggerInstance.Msg("Open " + currentduck);
-            }
-
-            foreach (GameObject i in generalManager.Ducks.Count)
-            {
-
-            }
-            if (generalManager.CurrentDuck >= generalManager.Ducks.Count)
-            {
-
+                generalManager.ChangeDuck(i);
+                if (i >= generalManager.Ducks.Count)
+                {
+                    generalManager.CurrentDuck = 0;
+                    return;
+                }
+                else
+                {
+                    DuckManager currentduck = generalManager.Ducks[generalManager.CurrentDuck].GetComponent<DuckManager>();
+                    if (currentduck.IsInSeasonContainer)
+                    {
+                        generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
+                        currentduck.OnSeasonClick();
+                        instance.LoggerInstance.Msg("Open " + currentduck);
+                    }
+                }
             }
         }
     }

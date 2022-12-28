@@ -45,4 +45,12 @@
 			<HintPath>$(MsBuildThisFileDirectory)Libs\Assembly-CSharp-firstpass.dll</HintPath>
 		</Reference>
 	</ItemGroup>
+	<!-- Build Area-->
+	<PropertyGroup>
+		<OutputPath>$(SolutionDir)\Output\$(Configuration)\</OutputPath>
+		<BaseIntermediateOutputPath>$(SolutionDir)\Output</BaseIntermediateOutputPath>
+		<IntermediateOutputPath>$(BaseIntermediateOutputPath)\tmp\$(Configuration)\</IntermediateOutputPath>
+		<TargetFrameworks>net472;net6</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 </Project>
