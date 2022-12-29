@@ -1,43 +1,33 @@
 ﻿using HarmonyLib;
 using MelonLoader;
-using TestMod;
-using System;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
+using Duck_Trainer;
 using UnityEngine;
-using System.Security.Policy;
 
-[assembly: MelonInfo(typeof(Test_Mod), "Test Mod", "0.0.1", "BlackyFox")]
+[assembly: MelonInfo(typeof(DuckTrainer), "Test Mod", "0.0.1", "BlackyFox")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
-namespace TestMod
+namespace Duck_Trainer
 {
-    public class Test_Mod : MelonMod
+    public class DuckTrainer : MelonMod
     {
-        public static Test_Mod instance;
+        private static DuckTrainer instance;
 
         private static KeyCode spawnduck;
         private static KeyCode openduck;
 
         public static MelonLogger.Instance log
         {
-            get
-            {
-                return instance.LoggerInstance;
-            }
+            get { return instance.LoggerInstance; }
         }
+
         public override void OnEarlyInitializeMelon()
         {
             instance = this;
             spawnduck = KeyCode.K;
             openduck = KeyCode.J;
         }
-       public override void OnLateUpdate()
+
+        public override void OnLateUpdate() //TODO: Replace with GUI
         {
             if (Input.GetKeyDown(spawnduck))
             {
@@ -52,9 +42,9 @@ namespace TestMod
 
         private static void SpawnDuck()
         {
-            var GeneralManager = UnityEngine.Object.FindObjectOfType<GeneralManager>();
+            var generalManager = UnityEngine.Object.FindObjectOfType<GeneralManager>();
             instance.LoggerInstance.Msg("Duck Spawned");
-            Traverse.Create(GeneralManager).Field("spawnCounter").SetValue(1000);
+            Traverse.Create(generalManager).Field("spawnCounter").SetValue(1000);
         }
 
         private static void OpenDuck()
@@ -63,7 +53,7 @@ namespace TestMod
             //generalManager.ChangeDuck(-1);
             generalManager.ChangeDuck(0);
             instance.LoggerInstance.Msg(generalManager.Ducks.Count);
-            for (int i=0; i<=generalManager.Ducks.Count; i++)
+            for (int i = 0; i <= generalManager.Ducks.Count; i++)
             {
                 generalManager.ChangeDuck(i);
                 if (i >= generalManager.Ducks.Count)
@@ -73,7 +63,8 @@ namespace TestMod
                 }
                 else
                 {
-                    DuckManager currentduck = generalManager.Ducks[generalManager.CurrentDuck].GetComponent<DuckManager>();
+                    var currentduck =
+                        generalManager.Ducks[generalManager.CurrentDuck].GetComponent<DuckManager>();
                     if (currentduck.IsInSeasonContainer)
                     {
                         generalManager.AddDuck(currentduck, currentduck.duckID, true, false);

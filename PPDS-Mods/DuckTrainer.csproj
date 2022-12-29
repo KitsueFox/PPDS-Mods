@@ -7,8 +7,8 @@
     <ProjectGuid>{CA2D406B-45BB-4768-95D9-626568347B61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestMod</RootNamespace>
-    <AssemblyName>Test Mod</AssemblyName>
+    <RootNamespace>Duck_Trainer</RootNamespace>
+    <AssemblyName>Duck Trainer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>C:\Users\aaron\source\PPDS-Mods\\Output\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)\Output\$(Configuration)\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputPath>$(SolutionDir)\Output\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MelonLoader">
@@ -37,7 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test_Mod.cs" />
+    <Compile Include="DuckTrainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
