@@ -2,6 +2,7 @@
 using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.1", "BlackyFox")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
@@ -37,27 +38,41 @@ public class DuckTrainer : MelonMod
 
     public static void DrawMenu()
     {
+        var centerstyle = GUI.skin.GetStyle("Label");
+        centerstyle.alignment = TextAnchor.UpperCenter;
+        string url = "https://github.com/KitsueFox/PPDS-Mods";
         var backgroundcolor = new Color(128f, 0f, 128f, 0.5f);
+        
         GUI.contentColor = Color.white;
         GUI.backgroundColor = backgroundcolor;
-        GUI.Box(new Rect((float)(Screen.width / 2 - 150), 1f, 355f,290f), "");
+        GUI.Box(new Rect((float)(Screen.width / 2 - 150), 1f, 350f,290f), "");
+        GUI.Label(new Rect((float)(Screen.width / 2 - 50), 270f, 150f, 20f), "Made By BlackyFox", centerstyle);
+        if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 40f, 150f, 50f), "Spawn Duck (K)")) SpawnDuck();
+        if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 40f, 150f, 50f), "Open All Duck (J)")) OpenDuck();
     }
 
     private static void OpenMenu()
     {
         mod_menu = !mod_menu;
-
+        var generalManager = Object.FindObjectOfType<GeneralManager>();
+        
         if (mod_menu)
         {
             instance.LoggerInstance.Msg("Open Menu");
 
             MelonEvents.OnGUI.Subscribe(DrawMenu, 100);
+            EventSystem.current.SetSelectedGameObject(null);
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             instance.LoggerInstance.Msg("Close Menu");
             
             MelonEvents.OnGUI.Unsubscribe(DrawMenu);
+            if (!generalManager.DusckSelectionMode) return;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

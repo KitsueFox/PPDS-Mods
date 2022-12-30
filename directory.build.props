@@ -26,6 +26,16 @@
             <Private>false</Private>
             <HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SpecificVersion>false</SpecificVersion>
+            <Private>false</Private>
+            <HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SpecificVersion>false</SpecificVersion>
+            <Private>false</Private>
+            <HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.UI.dll</HintPath>
+        </Reference>
         <Reference Include="MelonLoader, Version=0.5.7.0, Culture=neutral, PublicKeyToken=null">
             <SpecificVersion>true</SpecificVersion>
             <Private>false</Private>
@@ -57,5 +67,12 @@
         <IntermediateOutputPath>$(BaseIntermediateOutputPath)\tmp\$(Configuration)\</IntermediateOutputPath>
         <TargetFrameworks>net472;net6</TargetFrameworks>
         <LangVersion>latest</LangVersion>
+        <CopyToPPDS Condition="'$(CopyToPPDS)'!='false'">true</CopyToPPDS>
+    </PropertyGroup>
+    <!-- Copy to Mod Folder -->
+    <PropertyGroup Condition="'$(PPDSPath)'==''">
+        <PPDSPath Condition="Exists('C:/Program Files (x86)/Steam/steamapps/common/Placid Plastic Duck Simulator')">C:/Program Files (x86)/Steam/steamapps/common/Placid Plastic Duck Simulator</PPDSPath>
+        <PPDSPath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Placid Plastic Duck Simulator')">$(HOME)/.steam/steam/steamapps/common/Placid Plastic Duck Simulator</PPDSPath>
+        <PPDSPath Condition="Exists('D:/SteamLibrary/steamapps/common/Placid Plastic Duck Simulator')">D:/SteamLibrary/steamapps/common/Placid Plastic Duck Simulator</PPDSPath>
     </PropertyGroup>
 </Project>
