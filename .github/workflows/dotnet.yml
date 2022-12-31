@@ -18,7 +18,7 @@ jobs:
       - name: Checkout libs
         uses: actions/checkout@v2
         with:
-          repository: ${{ secrets.LibsRepository }}
+          repository: KitsueFox/PPDS-Libs
           token: ${{ secrets.LibsRepositoryToken }}
           path: Libs
 
