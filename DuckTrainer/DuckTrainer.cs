@@ -3,6 +3,8 @@ using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using static GeneralManager;
 
 [assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.1", "BlackyFox")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
@@ -11,37 +13,55 @@ namespace Duck_Trainer;
 
 public class DuckTrainer : MelonMod
 {
-    private static DuckTrainer instance;
+    private static DuckTrainer _instance;
 
-    private static KeyCode spawnduck;
-    private static KeyCode openduck;
-    private static KeyCode open_gui;
+    private static KeyCode _spawnduck;
+    private static KeyCode _openduck;
+    private static KeyCode _openGUI;
 
-    private static bool mod_menu;
+    private static bool _modMenu;
+    private static bool _duckMove;
+    private static Vector3 _duckMovementInput;
+    private static string _duckMoveGUI = "Duck Move (Disable)";
+    
+    private static GeneralManager _generalManager;
 
+    //Melonloader Area
     public override void OnEarlyInitializeMelon()
     {
-        instance = this;
-        spawnduck = KeyCode.K;
-        openduck = KeyCode.J;
-        open_gui = KeyCode.F9;
+        _instance = this;
+        _spawnduck = KeyCode.K;
+        _openduck = KeyCode.J;
+        _openGUI = KeyCode.F9;
     }
 
-    public override void OnLateUpdate() //TODO: Replace with GUI
+    public override void OnLateUpdate()
     {
-        if (Input.GetKeyDown(spawnduck)) SpawnDuck();
+        var intro = SceneManager.GetActiveScene().name == "Intro";
 
-        if (Input.GetKeyDown(openduck)) OpenDuck();
+        if (intro) return; // Check if Intro Scene is not loaded
+        _generalManager = Object.FindObjectOfType<GeneralManager>();
+        if (Input.GetKeyDown(_spawnduck)) SpawnDuck();
+        if (Input.GetKeyDown(_openduck)) OpenDuck();
+        if (Input.GetKeyDown(_openGUI)) OpenMenu();
+    }
+
+    public override void OnUpdate()
+    {
+        _duckMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         
-        if (Input.GetKeyDown(open_gui)) OpenMenu();
+        DuckMovement();
     }
+    //Harmony Patches TODO: Patch GeneralManager to change RemoveDuck() class to Respawn Ducks
+    
 
-    public static void DrawMenu()
+    //Internal Code
+    private static void DrawMenu() //Trainer Menu
     {
-        var centerstyle = GUI.skin.GetStyle("Label");
+        var centerstyle = new GUIStyle(GUI.skin.label);
         centerstyle.alignment = TextAnchor.UpperCenter;
-        string url = "https://github.com/KitsueFox/PPDS-Mods";
-        var backgroundcolor = new Color(128f, 0f, 128f, 0.5f);
+        var url = "https://github.com/KitsueFox/PPDS-Mods";
+        var backgroundcolor = new Color(128f, 0f, 0f, 0.5f);
         
         GUI.contentColor = Color.white;
         GUI.backgroundColor = backgroundcolor;
@@ -49,16 +69,17 @@ public class DuckTrainer : MelonMod
         GUI.Label(new Rect((float)(Screen.width / 2 - 50), 270f, 150f, 20f), "Made By BlackyFox", centerstyle);
         if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 40f, 150f, 50f), "Spawn Duck (K)")) SpawnDuck();
         if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 40f, 150f, 50f), "Open All Duck (J)")) OpenDuck();
+        if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 100f, 150f, 50f), "All Duck Quack")) AllSpeak();
+        if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 100f, 150f, 50f), _duckMoveGUI)) DuckMovement_Check();
     }
-
-    private static void OpenMenu()
+    
+    private static void OpenMenu() //Self explanatory
     {
-        mod_menu = !mod_menu;
-        var generalManager = Object.FindObjectOfType<GeneralManager>();
+        _modMenu = !_modMenu;
         
-        if (mod_menu)
+        if (_modMenu)
         {
-            instance.LoggerInstance.Msg("Open Menu");
+            _instance.LoggerInstance.Msg("Open Menu");
 
             MelonEvents.OnGUI.Subscribe(DrawMenu, 100);
             EventSystem.current.SetSelectedGameObject(null);
@@ -67,42 +88,78 @@ public class DuckTrainer : MelonMod
         }
         else
         {
-            instance.LoggerInstance.Msg("Close Menu");
+            _instance.LoggerInstance.Msg("Close Menu");
             
             MelonEvents.OnGUI.Unsubscribe(DrawMenu);
-            if (!generalManager.DusckSelectionMode) return;
+            if (!_generalManager.DusckSelectionMode) return;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
-    private static void SpawnDuck()
+    private static void SpawnDuck() //Spawn A new duck by invoking the spawnCounter
     {
-        var generalManager = Object.FindObjectOfType<GeneralManager>();
-        instance.LoggerInstance.Msg("Duck Spawned");
-        Traverse.Create(generalManager).Field("spawnCounter").SetValue(1000);
+        _instance.LoggerInstance.Msg("Duck Spawned");
+        Traverse.Create(_generalManager).Field("spawnCounter").SetValue(1000);
     }
 
-    private static void OpenDuck()
+    private static void OpenDuck() //Opening Ducks out of the Presents, Might have to edit
     {
-        var generalManager = Object.FindObjectOfType<GeneralManager>();
-        generalManager.ChangeDuck(0);
+        _generalManager.ChangeDuck(0);
+        var gmsAudio = Traverse.Create(_generalManager).Field("seasonOpenContainerAudioSource").GetValue() as AudioSource;
+        var gmsFX =
+            Traverse.Create(_generalManager).Field("seasonOpenContainerFX").GetValue() as ParticleSystem;
+        var gmsFloat = new float[] { 0.5f, 0.75f, 1.25f, 1.5f };
         //instance.LoggerInstance.Msg(generalManager.Ducks.Count); //DEBUG ONLY
-        for (var i = 0; i <= generalManager.Ducks.Count; i++)
+        for (var i = 0; i <= _generalManager.Ducks.Count; i++)
         {
-            generalManager.ChangeDuck(i);
-            if (i >= generalManager.Ducks.Count)
+            _generalManager.ChangeDuck(i);
+            if (i >= _generalManager.Ducks.Count)
             {
-                generalManager.CurrentDuck = 0;
+                _generalManager.CurrentDuck = 0;
                 return;
             }
 
             var currentduck =
-                generalManager.Ducks[generalManager.CurrentDuck].GetComponent<DuckManager>();
+                _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>();
             if (!currentduck.IsInSeasonContainer) continue;
-            generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
+            _generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
             currentduck.OnSeasonClick();
-            instance.LoggerInstance.Msg("Opened " + currentduck);
+            gmsAudio.pitch = gmsFloat[Random.Range(0, gmsFloat.Length)];
+            gmsFX.transform.position = currentduck.transform.position;
+            gmsFX.Play();
+            gmsAudio.Play();
+            _instance.LoggerInstance.Msg("Opened " + currentduck);
         }
+    }
+
+    private static void AllSpeak() //Make all Ducks Quack
+    {
+        for (var i = 0; i <= _generalManager.Ducks.Count; i++)
+        {
+            _generalManager.ChangeDuck(i);
+            if (i >= _generalManager.Ducks.Count)
+            {
+                _generalManager.CurrentDuck = 0;
+                return;
+            }
+            _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
+        }
+    }
+
+    private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
+    {
+        _duckMove = !_duckMove;
+        _duckMoveGUI = _duckMove ? "Duck Move (Enabled)" : "Duck Move (Disable)";
+    }
+
+    private static void DuckMovement() //Move Ducks by using WSAD, TODO: Add Direction indicator
+    {
+        if (!_duckMove) return;
+        if (_generalManager.DusckSelectionMode) return;
+        var currentduck = _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>();
+        if (currentduck == null) return;
+        var cforce = currentduck.GetComponent<ConstantForce>();
+        cforce.relativeForce = _duckMovementInput * 20;
     }
 }
