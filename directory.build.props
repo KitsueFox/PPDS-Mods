@@ -75,8 +75,6 @@
         <OutputPath>$(SolutionDir)\Output\$(Configuration)\</OutputPath>
         <BaseIntermediateOutputPath>$(SolutionDir)\Output</BaseIntermediateOutputPath>
         <IntermediateOutputPath>$(BaseIntermediateOutputPath)\tmp\$(Configuration)\</IntermediateOutputPath>
-        <TargetFrameworks>net472;net6</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
         <CopyToPPDS Condition="'$(CopyToPPDS)'!='false'">true</CopyToPPDS>
     </PropertyGroup>
     <!-- Copy to Mod Folder -->
