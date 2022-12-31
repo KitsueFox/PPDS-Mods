@@ -1,10 +1,13 @@
-﻿using Duck_Trainer;
+﻿using System;
+using Duck_Trainer;
 using HarmonyLib;
 using MelonLoader;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using static GeneralManager;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 [assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.1", "BlackyFox")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
@@ -17,10 +20,12 @@ public class DuckTrainer : MelonMod
 
     private static KeyCode _spawnduck;
     private static KeyCode _openduck;
+    private static KeyCode _respawnDucks;
     private static KeyCode _openGUI;
 
     private static bool _modMenu;
     private static bool _duckMove;
+    //public static bool RespawnDuck = true;
     private static Vector3 _duckMovementInput;
     private static string _duckMoveGUI = "Duck Move (Disable)";
     
@@ -33,7 +38,23 @@ public class DuckTrainer : MelonMod
         _spawnduck = KeyCode.K;
         _openduck = KeyCode.J;
         _openGUI = KeyCode.F9;
+        _respawnDucks = KeyCode.H;
     }
+    
+    /*public override void OnInitializeMelon() TODO:Bring back when Patching is Needed
+    {
+        var harmony = new HarmonyLib.Harmony("Duck_Trainer");
+        FileLog.Log("Before Patch");
+        try
+        {
+            harmony.PatchAll(typeof(GmPatch));
+            _instance.LoggerInstance.Msg("Patched!");
+        }
+        catch (Exception e)
+        {
+            _instance.LoggerInstance.Msg(e);
+        }
+    }*/
 
     public override void OnLateUpdate()
     {
@@ -44,6 +65,7 @@ public class DuckTrainer : MelonMod
         if (Input.GetKeyDown(_spawnduck)) SpawnDuck();
         if (Input.GetKeyDown(_openduck)) OpenDuck();
         if (Input.GetKeyDown(_openGUI)) OpenMenu();
+        if (Input.GetKeyDown(_respawnDucks)) AllRespawn();
     }
 
     public override void OnUpdate()
@@ -52,8 +74,6 @@ public class DuckTrainer : MelonMod
         
         DuckMovement();
     }
-    //Harmony Patches TODO: Patch GeneralManager to change RemoveDuck() class to Respawn Ducks
-    
 
     //Internal Code
     private static void DrawMenu() //Trainer Menu
@@ -146,6 +166,21 @@ public class DuckTrainer : MelonMod
             _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
         }
     }
+    
+    private static void AllRespawn() //Make all Ducks Respawn
+    {
+        for (var i = 0; i <= _generalManager.Ducks.Count; i++)
+        {
+            _generalManager.ChangeDuck(i);
+            if (i >= _generalManager.Ducks.Count)
+            {
+                _generalManager.CurrentDuck = 0;
+                return;
+            }
+            _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().transform.position =
+                _generalManager.SpawnPoint.position;
+        }
+    }
 
     private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
     {
@@ -163,3 +198,24 @@ public class DuckTrainer : MelonMod
         cforce.relativeForce = _duckMovementInput * 20;
     }
 }
+//Harmony Patches TODO: Remove This and Replace with DuckManager
+//ISSUE: Not the Right class to patch causes Inifi Respawn
+/*[HarmonyPatch(typeof(GeneralManager), nameof(GeneralManager.RemoveDuck))]
+public class GmPatch
+{
+    static bool Prefix(GameObject duckToRemove, bool destroy, List<GameObject> ___Ducks, int ___CurrentDuck, Transform ___SpawnPoint)
+    {
+        FileLog.Log("Patch Worked So far!");
+        if (Duck_Trainer.DuckTrainer.RespawnDuck == true)
+        {
+            var gameObject = ___Ducks[___CurrentDuck];
+            gameObject.GetComponent<DuckManager>().transform.position = ___SpawnPoint.position;
+            FileLog.Log("Duck Respawned");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}*/
