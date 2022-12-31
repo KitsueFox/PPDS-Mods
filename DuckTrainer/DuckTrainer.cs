@@ -12,8 +12,8 @@ using Random = UnityEngine.Random;
 [assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.1", "BlackyFox")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
-namespace Duck_Trainer;
-
+namespace Duck_Trainer
+{
 public class DuckTrainer : MelonMod
 {
     private static DuckTrainer _instance;
@@ -197,6 +197,7 @@ public class DuckTrainer : MelonMod
         var cforce = currentduck.GetComponent<ConstantForce>();
         cforce.relativeForce = _duckMovementInput * 20;
     }
+}
 }
 //Harmony Patches TODO: Remove This and Replace with DuckManager
 //ISSUE: Not the Right class to patch causes Inifi Respawn
