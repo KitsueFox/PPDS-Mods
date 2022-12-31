@@ -5,3 +5,14 @@ for [Placid Plastic Duck Simulator](https://store.steampowered.com/app/1999360/P
 time of upload there's no discord involved, If you want to make one for a Modding Community feel free.
 
 # **You need at least MelonLoader v0.5.7!**
+
+## Current Mods
+- - -
+## Duck Trainer
+
+### Open GUI "F9"
+
+* Spawn Ducks (K)
+* Duck Movement
+* Duck All Quack
+* Open All Presents (J)
