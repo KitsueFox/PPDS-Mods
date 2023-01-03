@@ -18,10 +18,11 @@ namespace Duck_Trainer
     {
         private static DuckTrainer _instance;
 
-        private static KeyCode _spawnduck;
-        private static KeyCode _openduck;
-        private static KeyCode _respawnDucks;
-        private static KeyCode _openGUI;
+        private static readonly KeyCode _spawnduck = KeyCode.K;
+        private static readonly KeyCode _openduck = KeyCode.J;
+        private static readonly KeyCode _respawnDucks = KeyCode.H;
+        private static readonly KeyCode _openGUI = KeyCode.F9;
+        private static KeyCode _flyDuck = KeyCode.Space;
 
         private static bool _modMenu;
         private static bool _duckMove;
@@ -40,10 +41,6 @@ namespace Duck_Trainer
         public override void OnEarlyInitializeMelon()
         {
             _instance = this;
-            _spawnduck = KeyCode.K;
-            _openduck = KeyCode.J;
-            _openGUI = KeyCode.F9;
-            _respawnDucks = KeyCode.H;
         }
 
         /*public override void OnInitializeMelon() //TODO:Bring back when Patching is Needed
@@ -85,8 +82,10 @@ namespace Duck_Trainer
         //Internal Code
         private static void DrawMenu() //Trainer Menu
         {
-            var centerstyle = new GUIStyle(GUI.skin.label);
-            centerstyle.alignment = TextAnchor.UpperCenter;
+            var centerstyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.UpperCenter
+            };
             var url = "https://github.com/KitsueFox/PPDS-Mods";
             var backgroundcolor = new Color(128f, 0f, 0f, 0.5f);
 
@@ -99,6 +98,7 @@ namespace Duck_Trainer
             if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 100f, 150f, 50f), "All Duck Quack")) {AllSpeak();}
             if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 100f, 150f, 50f), _duckMoveGUI))
             {DuckMovement_Check();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 160f, 150f, 50f), "Clear Weather")) {WeatherChange();}
         }
 
         private static void OpenMenu() //Self explanatory
@@ -195,7 +195,7 @@ namespace Duck_Trainer
 
         private static void WeatherChange()
         {
-            
+            throw new NotImplementedException();
         }
 
         private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
@@ -212,6 +212,10 @@ namespace Duck_Trainer
             if (currentduck == null) return;
             var cforce = currentduck.GetComponent<ConstantForce>();
             cforce.relativeForce = _duckMovementInput * 20;
+            if (Input.GetKey(_flyDuck))
+            {
+                cforce.relativeForce = new Vector3(0f, 60f, 0f);
+            }
         }
     }
 }
