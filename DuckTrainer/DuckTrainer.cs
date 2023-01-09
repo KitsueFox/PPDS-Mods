@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Reflection;
 using Duck_Trainer;
 using HarmonyLib;
 using MelonLoader;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.1", "BlackyFox")]
+[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.2", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Duck_Trainer
@@ -26,17 +25,20 @@ namespace Duck_Trainer
         private static readonly KeyCode FlyDuck = KeyCode.Space;
 
         private static bool _modMenu;
-        private static bool _duckMove;
+        public static bool DuckMove;
+        public static bool DuckRespawn;
+        public static bool CtrlSnowPlow;
 
-        private static bool _weatherChange;
-
-        //public static bool RespawnDuck = true;
-        private static Vector3 _duckMovementInput;
+        public static Vector3 MovementInput;
+        public static float DistancetoResapwn = 500000f;
         private static string _duckMoveGUI = "Duck Move (Disable)";
+        private static string _duckResapwnGUI = "Auto Respawn (Disable)";
+        private static string _snowplowGUI = "Snowplow (Disable)";
 
         private static GeneralManager _generalManager;
-        private static EnviroZone _enviroZone;
         private static EnviroSky _enviroSky;
+        private static Snowplow _snowplow;
+        private static GameObject _snowplowObj;
 
         //Melonloader Area
         public override void OnEarlyInitializeMelon()
@@ -44,20 +46,38 @@ namespace Duck_Trainer
             _instance = this;
         }
 
-        /*public override void OnInitializeMelon() //TODO:Bring back when Patching is Needed
+        public override void OnInitializeMelon()
         {
             var harmony = new HarmonyLib.Harmony("Duck_Trainer");
-            FileLog.Log("Before Patch");
             try
             {
-                harmony.PatchAll(typeof(GmPatch));
-                _instance.LoggerInstance.Msg("Patched!");
+                harmony.PatchAll(typeof(DuckTrainerPatch.DuckManagerPatchUpdate));
+                _instance.LoggerInstance.Msg("DuckManager Patched!");
+                
+                harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowCameraPatch));
+                _instance.LoggerInstance.Msg("SnowPlow Camera Patch");
+                
+                harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowMovement));
+                _instance.LoggerInstance.Msg("SnowPlow Movement Patch");
             }
             catch (Exception e)
             {
                 _instance.LoggerInstance.Msg(e);
             }
-        }*/
+            
+            DuckTrainerSettings.RegisterSettings();
+            DuckRespawn = DuckTrainerSettings.AutoRespawn.Value;
+            _duckResapwnGUI = DuckRespawn ? "Auto Respawn (Enable)" : "Auto Respawn (Disable)";
+        }
+        
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName) //Check if DLC Scene is Active
+        {
+            if ("dlc2Env" == sceneName)
+            {
+                _snowplowObj = GameObject.Find("Snowplow");
+                _snowplow = Object.FindObjectOfType<Snowplow>();
+            }
+        }
 
         public override void OnLateUpdate()
         {
@@ -65,7 +85,7 @@ namespace Duck_Trainer
 
             if (intro) return; // Check if Intro Scene is not loaded
             _generalManager = Object.FindObjectOfType<GeneralManager>();
-            _enviroZone = Object.FindObjectOfType<EnviroZone>();
+            if (_generalManager == null) return; // Check if GeneralManager is Null
             _enviroSky = Object.FindObjectOfType<EnviroSky>();
             if (Input.GetKeyDown(Spawnduck)) {SpawnDuck();}
             if (Input.GetKeyDown(Openduck)) {OpenDuck();}
@@ -75,11 +95,11 @@ namespace Duck_Trainer
 
         public override void OnUpdate()
         {
-            _duckMovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+            MovementInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
             DuckMovement();
         }
-
+        
         //Internal Code
         private static void DrawMenu() //Trainer Menu
         {
@@ -94,12 +114,16 @@ namespace Duck_Trainer
             GUI.backgroundColor = backgroundcolor;
             GUI.Box(new Rect((float)(Screen.width / 2 - 150), 1f, 350f, 290f), "");
             GUI.Label(new Rect((float)(Screen.width / 2 - 50), 270f, 150f, 20f), "Made By BlackyFox", centerstyle);
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 40f, 150f, 50f), "Spawn Duck (K)")) {SpawnDuck();}
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 40f, 150f, 50f), "Open All Duck (J)")) {OpenDuck();}
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 100f, 150f, 50f), "All Duck Quack")) {AllSpeak();}
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 100f, 150f, 50f), _duckMoveGUI))
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 20f, 150f, 50f), "Spawn Duck (K)")) {SpawnDuck();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 20f, 150f, 50f), "Open All Duck (J)")) {OpenDuck();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 80f, 150f, 50f), "All Duck Quack")) {AllSpeak();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 80f, 150f, 50f), _duckMoveGUI))
             {DuckMovement_Check();}
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 160f, 150f, 50f), "Clear Weather")) {WeatherChange();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 140f, 150f, 50f), "Clear Weather")) {WeatherChange();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 140f, 150f, 50f), _duckResapwnGUI))
+            {DuckRespawn_Check();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - 135), 200f, 150f, 50f), _snowplowGUI)){SnowPlow();}
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 200f, 150f, 50f), "Mod Page")){Application.OpenURL(url);}
         }
 
         private static void OpenMenu() //Self explanatory
@@ -121,7 +145,6 @@ namespace Duck_Trainer
                 _instance.LoggerInstance.Msg("Close Menu");
 
                 MelonEvents.OnGUI.Unsubscribe(DrawMenu);
-                if (!_generalManager.DusckSelectionMode) return;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }
@@ -132,22 +155,34 @@ namespace Duck_Trainer
             _instance.LoggerInstance.Msg("Duck Spawned");
             Traverse.Create(_generalManager).Field("spawnCounter").SetValue(1000);
         }
+        
+        private static void SnowPlow() //Snow Plow Control
+        {
+            var snowdlc = SceneManager.GetActiveScene().name == "dlc2Env";
+            var plowon = Traverse.Create(_snowplow).Field("isOn").GetValue<bool>();
+            if (snowdlc && DuckMove && plowon)
+            {
+                CtrlSnowPlow = !CtrlSnowPlow;
+                _snowplowGUI = CtrlSnowPlow ? "Snowplow (Enable)" : "Snowplow (Disable)";
+            }
+        }
 
         private static void OpenDuck() //Opening Ducks out of the Presents, Might have to edit
         {
-            _generalManager.ChangeDuck(0);
             var gmsAudio =
                 Traverse.Create(_generalManager).Field("seasonOpenContainerAudioSource").GetValue() as AudioSource;
             var gmsFX =
                 Traverse.Create(_generalManager).Field("seasonOpenContainerFX").GetValue() as ParticleSystem;
             var gmsFloat = new float[] { 0.5f, 0.75f, 1.25f, 1.5f };
             //instance.LoggerInstance.Msg(generalManager.Ducks.Count); //DEBUG ONLY
+            var lastduck = _generalManager.CurrentDuck;
+            _generalManager.ChangeDuck(0);
             for (var i = 0; i <= _generalManager.Ducks.Count; i++)
             {
                 _generalManager.ChangeDuck(i);
                 if (i >= _generalManager.Ducks.Count)
                 {
-                    _generalManager.CurrentDuck = 0;
+                    _generalManager.CurrentDuck = lastduck;
                     return;
                 }
 
@@ -156,7 +191,7 @@ namespace Duck_Trainer
                 if (!currentduck.IsInSeasonContainer) continue;
                 _generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
                 currentduck.OnSeasonClick();
-                if (gmsAudio != null || gmsFX != null)
+                if (gmsAudio != null && gmsFX != null)
                 {
                     gmsAudio.pitch = gmsFloat[Random.Range(0, gmsFloat.Length)];
                     gmsFX.transform.position = currentduck.transform.position;
@@ -170,16 +205,21 @@ namespace Duck_Trainer
 
         private static void AllSpeak() //Make all Ducks Quack
         {
+            var lastduck = _generalManager.CurrentDuck;
+            _generalManager.ChangeDuck(0);
             for (var i = 0; i <= _generalManager.Ducks.Count; i++)
             {
                 _generalManager.ChangeDuck(i);
                 if (i >= _generalManager.Ducks.Count)
                 {
-                    _generalManager.CurrentDuck = 0;
+                    _generalManager.CurrentDuck = lastduck;
                     return;
                 }
 
-                _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
+                if (_generalManager.Ducks[_generalManager.CurrentDuck] != null)
+                { 
+                    _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
+                }
             }
         }
 
@@ -194,34 +234,33 @@ namespace Duck_Trainer
                     return;
                 }
 
-                _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().transform.position =
-                    _generalManager.SpawnPoint.position;
+                if (_generalManager.Ducks[_generalManager.CurrentDuck] != null)
+                {
+                    _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().transform.position =
+                        _generalManager.SpawnPoint.position;
+                }
             }
         }
 
-        private static void WeatherChange()
+        private static void WeatherChange() //Forces Weather to Clear
         {
-            var envsky = Object.FindObjectOfType <EnviroSky>();
-            var envzone = Object.FindObjectOfType<EnviroZone>();
-            var enviroWeatherPreset = envzone.zoneWeatherPresets.FirstOrDefault(preset => preset.winter);
-            _instance.LoggerInstance.Msg(enviroWeatherPreset);
-            envsky.Weather.currentActiveWeatherPreset = enviroWeatherPreset;
+            _enviroSky.SetWeatherOverwrite(0);
         }
 
         private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
         {
-            _duckMove = !_duckMove;
-            _duckMoveGUI = _duckMove ? "Duck Move (Enabled)" : "Duck Move (Disable)";
+            DuckMove = !DuckMove;
+            _duckMoveGUI = DuckMove ? "Duck Move (Enabled)" : "Duck Move (Disable)";
         }
 
         private static void DuckMovement() //Move Ducks by using WSAD and Space to Fly, TODO: Add Direction indicator
         {
-            if (!_duckMove) return;
+            if (!DuckMove) return;
             if (_generalManager.DusckSelectionMode) return;
             var currentduck = _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>();
             if (currentduck == null) return;
             var cforce = currentduck.GetComponent<ConstantForce>();
-            cforce.relativeForce = _duckMovementInput * 20;
+            cforce.relativeForce = MovementInput * 20;
             if (Input.GetKey(FlyDuck))
             {
                 cforce.relativeForce = new Vector3(0f, 60f, 0f);
@@ -232,6 +271,13 @@ namespace Duck_Trainer
                 currentduck.SetBuoyanciesStatus(true);
             }
         }
+
+        private static void DuckRespawn_Check() //Check for Duck Respawn is Enabled
+        {
+            DuckRespawn = !DuckRespawn;
+            DuckTrainerSettings.AutoRespawn.Value = DuckRespawn;
+            _duckResapwnGUI = DuckRespawn ? "Auto Respawn (Enable)" : "Auto Respawn (Disable)";
+            MelonPreferences.Save();
+        }
     }
 }
-//Harmony Patches TODO: Make Duck Respawner with DuckManager

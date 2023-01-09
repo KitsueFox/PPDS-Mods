@@ -17,6 +17,11 @@ time of upload there's no discord involved, If you want to make one for a Moddin
 ### Open GUI "F9"
 
 * Spawn Ducks (K)
-* Duck Movement
+* Duck Movement (**Space** *to fly*)
 * Duck All Quack
 * Open All Presents (J)
+* Clear Weather
+* Ducks Auto Respawn (*Never Loose a duck again*)
+* Snowplow Controls
+
+*Make sure to have one Movement Controls on at a time*
