@@ -6,7 +6,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>Duck_Trainer</RootNamespace>
         <AssemblyName>Duck Trainer</AssemblyName>
-        <AssemblyVersion>0.0.2.0</AssemblyVersion>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <FileAlignment>512</FileAlignment>
         <Deterministic>true</Deterministic>
         <TargetFramework>net472</TargetFramework>

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.0.2", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Duck_Trainer
@@ -160,7 +160,7 @@ namespace Duck_Trainer
         {
             var snowdlc = SceneManager.GetActiveScene().name == "dlc2Env";
             var plowon = Traverse.Create(_snowplow).Field("isOn").GetValue<bool>();
-            if (snowdlc && DuckMove && plowon)
+            if (snowdlc && !DuckMove && plowon)
             {
                 CtrlSnowPlow = !CtrlSnowPlow;
                 _snowplowGUI = CtrlSnowPlow ? "Snowplow (Enable)" : "Snowplow (Disable)";
