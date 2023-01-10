@@ -1,2 +1,2 @@
-Changes:
-* Duck Trainer: Fixed Snowplow Check
+## Changes:
+* Duck Trainer: Fixed #1 | Snowplow Softlock
