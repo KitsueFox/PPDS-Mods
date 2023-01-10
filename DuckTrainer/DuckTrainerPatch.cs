@@ -53,14 +53,21 @@ namespace Duck_Trainer
         [HarmonyPatch(typeof(Snowplow), "Update")] //Override Snowplow Controls
         public class SnowPlowMovement
         {
-            static bool Prefix(ref Snowplow __instance)
+            static bool Prefix(ref Snowplow __instance, bool ___isOn)
             {
-                if (DuckTrainer.CtrlSnowPlow && !DuckTrainer.DuckMove)
+                if (DuckTrainer.CtrlSnowPlow && !DuckTrainer.DuckMove && ___isOn)
                 {
-                    var gameObject = __instance.gameObject;
-                    gameObject.transform.Translate(0, 0, Input.GetAxis("Vertical") / 4);
-                    gameObject.transform.rotation = gameObject.transform.rotation * Quaternion.Euler(new Vector3(0, Input.GetAxis("Horizontal") / 2, 0));
+                    var o = __instance.gameObject;
+                    o.transform.Translate(0, 0, Input.GetAxis("Vertical") / 4);
+                    o.transform.rotation = 
+                        o.transform.rotation * Quaternion.Euler(new Vector3(0, Input.GetAxis("Horizontal") / 2, 0));
                     return false;
+                }
+                else if (DuckTrainer.CtrlSnowPlow && !DuckTrainer.DuckMove && !___isOn)
+                {
+                    //DuckTrainer.CtrlSnowPlow = false;
+                    DuckTrainer.SnowPlow();
+                    return true;
                 }
                 else
                 {

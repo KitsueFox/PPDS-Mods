@@ -69,7 +69,7 @@ namespace Duck_Trainer
             DuckRespawn = DuckTrainerSettings.AutoRespawn.Value;
             _duckResapwnGUI = DuckRespawn ? "Auto Respawn (Enable)" : "Auto Respawn (Disable)";
         }
-        
+
         public override void OnSceneWasInitialized(int buildIndex, string sceneName) //Check if DLC Scene is Active
         {
             if ("dlc2Env" == sceneName)
@@ -99,7 +99,7 @@ namespace Duck_Trainer
 
             DuckMovement();
         }
-        
+
         //Internal Code
         private static void DrawMenu() //Trainer Menu
         {
@@ -155,8 +155,8 @@ namespace Duck_Trainer
             _instance.LoggerInstance.Msg("Duck Spawned");
             Traverse.Create(_generalManager).Field("spawnCounter").SetValue(1000);
         }
-        
-        private static void SnowPlow() //Snow Plow Control
+
+        public static void SnowPlow() //Snow Plow Control
         {
             var snowdlc = SceneManager.GetActiveScene().name == "dlc2Env";
             var plowon = Traverse.Create(_snowplow).Field("isOn").GetValue<bool>();
@@ -164,6 +164,16 @@ namespace Duck_Trainer
             {
                 CtrlSnowPlow = !CtrlSnowPlow;
                 _snowplowGUI = CtrlSnowPlow ? "Snowplow (Enable)" : "Snowplow (Disable)";
+            }
+            else if (snowdlc && !DuckMove && !plowon)
+            {
+                CtrlSnowPlow = false;
+                _snowplowGUI = "Snowplow (Disable)";
+            }
+            else
+            {
+                CtrlSnowPlow = false;
+                _snowplowGUI = "Snowplow (N/A)";
             }
         }
 
@@ -249,8 +259,16 @@ namespace Duck_Trainer
 
         private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
         {
-            DuckMove = !DuckMove;
-            _duckMoveGUI = DuckMove ? "Duck Move (Enabled)" : "Duck Move (Disable)";
+            if (!CtrlSnowPlow)
+            {
+                DuckMove = !DuckMove;
+                _duckMoveGUI = DuckMove ? "Duck Move (Enabled)" : "Duck Move (Disable)";
+            }
+            else
+            {
+                DuckMove = false;
+                _duckMoveGUI = "Duck Move (N/A)";
+            }
         }
 
         private static void DuckMovement() //Move Ducks by using WSAD and Space to Fly, TODO: Add Direction indicator
