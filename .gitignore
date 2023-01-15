@@ -5,5 +5,7 @@ obj/
 /packages
 Libs/*.dll
 Libs/*.db
+Libs-Alt/*.dll
+Libs-Alt/*.db
 *.user
 /Output

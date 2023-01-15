@@ -1,5 +1,3 @@
-using MelonLoader;
-using Duck_Trainer;
 using HarmonyLib;
 using UnityEngine;
 
