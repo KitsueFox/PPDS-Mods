@@ -6,7 +6,7 @@
 
 This repository contains my mods
 for [Placid Plastic Duck Simulator](https://store.steampowered.com/app/1999360/Placid_Plastic_Duck_Simulator/). I'm not 
-responsible for you save data being croupted, Please backup before modding the game!
+responsible for you save data being corrupted, Please backup before modding the game!
 
 # **You need at least MelonLoader v0.5.7!**
 
