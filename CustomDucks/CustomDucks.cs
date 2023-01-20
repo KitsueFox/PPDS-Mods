@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Reflection;
 using System.IO;
-using System.Runtime.Remoting.Messaging;
 using Custom_Ducks;
+using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,51 +13,75 @@ namespace Custom_Ducks
 {
     public class CustomDucks : MelonMod
     {
-        private static CustomDucks _instance;
+        public static CustomDucks Instance;
         private static GameObject _testDuck;
         private static GeneralManager _generalManager;
-        private static AssetBundle assets;
-        private static DuckSet custom_ducks;
         private static readonly string Path = @"./UserData/CustomDucks/";
 
         public override void OnEarlyInitializeMelon()
         {
-            _instance = this;
+            Instance = this;
         }
 
         public override void OnInitializeMelon()
         {
+            var harmony = new HarmonyLib.Harmony("Custom_Ducks");
+            try
+            {
+                harmony.PatchAll(typeof(CustomDucksPatch.DuckEntryPatch));
+                Instance.LoggerInstance.Msg("DuckEntry Patched!");
+            }
+            catch (Exception e)
+            {
+                Instance.LoggerInstance.Msg(e);
+                throw;
+            }
             Directory.CreateDirectory("./UserData/CustomDucks");
             LoadAssets();
         }
 
-        private void LoadAssets()
+        public override void OnLateInitializeMelon()
         {
-            var bundles = AssetBundle.LoadFromMemory(File.ReadAllBytes(Path + @"custom-set-1.ducks"));
-            if (bundles != null)
-            {
-                _instance.LoggerInstance.Msg(bundles.name + " Loaded");
-                _testDuck = bundles.LoadAsset<GameObject>("_CustomDuck");
-            }
-            else
-            {
-                _instance.LoggerInstance.Error("Ducks Failed to load");
-            }
-
+            base.OnLateInitializeMelon();
         }
-
+        
         public override void OnLateUpdate()
         {
             var intro = SceneManager.GetActiveScene().name == "Intro";
+            GameObject newduck;
             
             if (intro) return; // Check if Intro Scene is not loaded
             _generalManager = Object.FindObjectOfType<GeneralManager>();
             if (_generalManager == null) return; // Check if GeneralManager is Null
             if (Input.GetKeyDown(KeyCode.C))
             {
-                Object.Instantiate(_testDuck, _generalManager.SpawnPoint);
-                var duckmanager = _testDuck.GetComponent<DuckManager>() as DuckManager;
-                _generalManager.AddDuck(duckmanager, "_CustomDuck", true,true);
+                newduck = Object.Instantiate(_testDuck);
+                var duckManager = newduck.GetComponent<DuckManager>();
+               _generalManager.AddDuck(duckManager, "mr.quacks", false,true);
+                newduck.transform.position = _generalManager.SpawnPoint.position;
+            }
+        }
+        
+        private void LoadAssets()
+        {
+            var bundles = AssetBundle.LoadFromMemory(File.ReadAllBytes(Path + @"custom-set-1.ducks"));
+            if (bundles != null)
+            {
+                Instance.LoggerInstance.Msg(bundles.name + " Loaded");
+                bundles.LoadAllAssets();
+                bundles.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+                _testDuck = bundles.LoadAsset<GameObject>("mr.quacks");
+                foreach (var CustomDuck in bundles.LoadAllAssets())
+                {
+                    if (CustomDuck != null)
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {
+                Instance.LoggerInstance.Error("Ducks Failed to load");
             }
         }
     }

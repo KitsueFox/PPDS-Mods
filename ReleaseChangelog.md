@@ -1,2 +1,2 @@
 ## Changes:
-* Duck Trainer: Fixed #1 | Snowplow Softlock
+* Duck Trainer: Achievements Disable by default to prevent cheating. You can renable it in the `MelonPreferences.cfg`

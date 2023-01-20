@@ -1,4 +1,5 @@
 using HarmonyLib;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Duck_Trainer
@@ -71,6 +72,16 @@ namespace Duck_Trainer
                 {
                     return true;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(AchievementsManager), "UnlockAchievement")]
+        public class AchievementsDisabler
+        {
+            static bool Prefix(ref AchievementType achievement)
+            {
+                DuckTrainer.Instance.LoggerInstance.Msg("Achievements Disable! You missed " + achievement.ToString());
+                return false;
             }
         }
     }

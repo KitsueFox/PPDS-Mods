@@ -12,6 +12,9 @@
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="CustomDuckSDK\CustomSets.cs" />
+    </ItemGroup>
     
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'net472' And ('$(CopyToPPDS)'=='true') And (Exists('$(PPDSPath)/Mods'))">
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PPDSPath)/Mods" />
