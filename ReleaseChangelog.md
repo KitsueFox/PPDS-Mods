@@ -1,2 +1,3 @@
 ## Changes:
-* Duck Trainer: Fixed Weather Change fpr the Latest DLC Release
++ Event Reenabler : Adds back the Ducks from the Christmas Event
+* Code Cleanup

@@ -4,7 +4,7 @@ using MelonLoader;
 
 namespace Duck_Trainer
 {
-    
+
     public static class DuckTrainerSettings //MelonSettings for the Mod
     {
         private const string SettingsCategory = "Duck Trainer";

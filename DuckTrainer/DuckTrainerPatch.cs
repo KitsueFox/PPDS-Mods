@@ -1,5 +1,4 @@
 using HarmonyLib;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Duck_Trainer
@@ -58,7 +57,7 @@ namespace Duck_Trainer
                 {
                     var o = __instance.gameObject;
                     o.transform.Translate(0, 0, Input.GetAxis("Vertical") / 4);
-                    o.transform.rotation = 
+                    o.transform.rotation =
                         o.transform.rotation * Quaternion.Euler(new Vector3(0, Input.GetAxis("Horizontal") / 2, 0));
                     return false;
                 }

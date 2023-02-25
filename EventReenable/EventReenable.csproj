@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <ProjectGuid>{76692df6-8a3d-48ad-9a3b-4a7cc5ef8ca4}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Event_Reenable</RootNamespace>
+        <AssemblyName>EventReenabler</AssemblyName>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileAlignment>512</FileAlignment>
+        <Deterministic>true</Deterministic>
+        <TargetFramework>net472</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'net472' And ('$(CopyToPPDS)'=='true') And (Exists('$(PPDSPath)/Mods'))">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PPDSPath)/Mods" />
+        <Message Text="Copied $(TargetFileName) to $(PPDSPath)/Mods" Importance="high" />
+    </Target>
+</Project>

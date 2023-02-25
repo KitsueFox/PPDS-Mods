@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
-using Custom_Ducks;
-using HarmonyLib;
+﻿using Custom_Ducks;
 using MelonLoader;
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -44,12 +43,12 @@ namespace Custom_Ducks
         {
             base.OnLateInitializeMelon();
         }
-        
+
         public override void OnLateUpdate()
         {
             var intro = SceneManager.GetActiveScene().name == "Intro";
             GameObject newduck;
-            
+
             if (intro) return; // Check if Intro Scene is not loaded
             _generalManager = Object.FindObjectOfType<GeneralManager>();
             if (_generalManager == null) return; // Check if GeneralManager is Null
@@ -57,11 +56,11 @@ namespace Custom_Ducks
             {
                 newduck = Object.Instantiate(_testDuck);
                 var duckManager = newduck.GetComponent<DuckManager>();
-               _generalManager.AddDuck(duckManager, "mr.quacks", false,true);
+                _generalManager.AddDuck(duckManager, "mr.quacks", false, true);
                 newduck.transform.position = _generalManager.SpawnPoint.position;
             }
         }
-        
+
         private void LoadAssets()
         {
             var bundles = AssetBundle.LoadFromMemory(File.ReadAllBytes(Path + @"custom-set-1.ducks"));
@@ -75,7 +74,7 @@ namespace Custom_Ducks
                 {
                     if (CustomDuck != null)
                     {
-                        
+
                     }
                 }
             }

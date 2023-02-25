@@ -1,6 +1,9 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckTrainer", "DuckTrainer\DuckTrainer.csproj", "{CA2D406B-45BB-4768-95D9-626568347B61}"
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuckTrainer", "DuckTrainer\DuckTrainer.csproj", "{CA2D406B-45BB-4768-95D9-626568347B61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C8A9316-6C2D-44F3-AC51-C3FD816E67DA}"
 	ProjectSection(SolutionItems) = preProject
@@ -8,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDucks", "CustomDucks\CustomDucks.csproj", "{182DFBE3-BAA2-4949-BF94-D99B90C1514F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomDucks", "CustomDucks\CustomDucks.csproj", "{182DFBE3-BAA2-4949-BF94-D99B90C1514F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventReenable", "EventReenable\EventReenable.csproj", "{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +29,10 @@ Global
 		{182DFBE3-BAA2-4949-BF94-D99B90C1514F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{182DFBE3-BAA2-4949-BF94-D99B90C1514F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{182DFBE3-BAA2-4949-BF94-D99B90C1514F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

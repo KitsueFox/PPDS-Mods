@@ -1,8 +1,8 @@
-﻿using System;
-using Duck_Trainer;
+﻿using Duck_Trainer;
 using Enviro;
 using HarmonyLib;
 using MelonLoader;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -56,13 +56,13 @@ namespace Duck_Trainer
             {
                 harmony.PatchAll(typeof(DuckTrainerPatch.DuckManagerPatchUpdate));
                 Instance.LoggerInstance.Msg("DuckManager Patched!");
-                
+
                 harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowCameraPatch));
                 Instance.LoggerInstance.Msg("SnowPlow Camera Patch");
-                
+
                 harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowMovement));
                 Instance.LoggerInstance.Msg("SnowPlow Movement Patch");
-                
+
                 if (_achievements) return;
                 harmony.PatchAll(typeof(DuckTrainerPatch.AchievementsDisabler));
                 Instance.LoggerInstance.Msg("Achievements Disabled!");
@@ -71,7 +71,7 @@ namespace Duck_Trainer
             {
                 Instance.LoggerInstance.Msg(e);
             }
-            
+
             DuckRespawn = DuckTrainerSettings.AutoRespawn.Value;
             _duckResapwnGUI = DuckRespawn ? "Auto Respawn (Enable)" : "Auto Respawn (Disable)";
         }
@@ -101,10 +101,10 @@ namespace Duck_Trainer
             _generalManager = Object.FindObjectOfType<GeneralManager>();
             if (_generalManager == null) return; // Check if GeneralManager is Null
             _enviroweathermodule = Object.FindObjectOfType<EnviroWeatherModule>();
-            if (Input.GetKeyDown(Spawnduck)) {SpawnDuck();}
-            if (Input.GetKeyDown(Openduck)) {OpenDuck();} // <-- For Christmas Event Only
-            if (Input.GetKeyDown(OpenGUI)) {OpenMenu();}
-            if (Input.GetKeyDown(RespawnDucks)) {AllRespawn();}
+            if (Input.GetKeyDown(Spawnduck)) { SpawnDuck(); }
+            if (Input.GetKeyDown(Openduck)) { OpenDuck(); } // <-- For Christmas Event Only
+            if (Input.GetKeyDown(OpenGUI)) { OpenMenu(); }
+            if (Input.GetKeyDown(RespawnDucks)) { AllRespawn(); }
         }
 
         public override void OnUpdate()
@@ -132,27 +132,28 @@ namespace Duck_Trainer
                 GUI.Label(new Rect(Screen.width / 2 - 50, 250f, 150f, 20f), "Achievements Disable!", centerstyle);
             }
             GUI.Label(new Rect(Screen.width / 2 - 50, 270f, 150f, 20f), "Made By BlackyFox", centerstyle);
-            if (GUI.Button(new Rect(Screen.width / 2 - 135, 20f, 150f, 50f), "Spawn Duck (K)")) {SpawnDuck();}
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 20f, 150f, 50f), "All Ducks Respawn (H)")) {AllRespawn();}
-            if (GUI.Button(new Rect(Screen.width / 2 - 135, 80f, 150f, 50f), "All Duck Quack")) {AllSpeak();}
+            if (GUI.Button(new Rect(Screen.width / 2 - 135, 20f, 150f, 50f), "Spawn Duck (K)")) { SpawnDuck(); }
+            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 20f, 150f, 50f), "All Ducks Respawn (H)")) { AllRespawn(); }
+            if (GUI.Button(new Rect(Screen.width / 2 - 135, 80f, 150f, 50f), "All Duck Quack")) { AllSpeak(); }
             if (GUI.Button(new Rect(Screen.width / 2 - -35, 80f, 150f, 50f), _duckMoveGUI))
-            {DuckMovement_Check();}
-            if (GUI.Button(new Rect(Screen.width / 2 - 135, 140f, 150f, 50f), "Clear Weather")) {WeatherChange();}
+            { DuckMovement_Check(); }
+            if (GUI.Button(new Rect(Screen.width / 2 - 135, 140f, 150f, 50f), "Clear Weather")) { WeatherChange(); }
             if (GUI.Button(new Rect(Screen.width / 2 - -35, 140f, 150f, 50f), _duckResapwnGUI))
-            {DuckRespawn_Check();}
-            if (GUI.Button(new Rect(Screen.width / 2 - 135, 200f, 150f, 50f), _snowplowGUI)){SnowPlow();}
-            if (GUI.Button(new Rect(Screen.width / 2 - -35, 200f, 150f, 50f), "Mod Page")){Application.OpenURL(url);}
+            { DuckRespawn_Check(); }
+            if (GUI.Button(new Rect(Screen.width / 2 - 135, 200f, 150f, 50f), _snowplowGUI)) { SnowPlow(); }
+            if (GUI.Button(new Rect(Screen.width / 2 - -35, 200f, 150f, 50f), "Mod Page")) { Application.OpenURL(url); }
         }
 
         private static void DrawWarning()
         {
             var style = new GUIStyle(GUI.skin.label)
             {
-                alignment = TextAnchor.MiddleLeft, fontSize = 20, 
+                alignment = TextAnchor.MiddleLeft,
+                fontSize = 20,
             };
-            
+
             GUI.contentColor = Color.red;
-            GUI.Label(new Rect(10, 10, 400,20),"Achievements Disable!", style);
+            GUI.Label(new Rect(10, 10, 400, 20), "Achievements Disable!", style);
         }
 
         private static void OpenMenu() //Self explanatory
@@ -256,7 +257,7 @@ namespace Duck_Trainer
                 }
 
                 if (_generalManager.Ducks[_generalManager.CurrentDuck] != null)
-                { 
+                {
                     _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
                 }
             }
@@ -298,7 +299,7 @@ namespace Duck_Trainer
             {
                 Instance.LoggerInstance.Error("Changing Weather is not support in Current Scene yet");
             }
-            
+
         }
 
         private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future
