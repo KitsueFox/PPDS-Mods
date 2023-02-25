@@ -1,5 +1,6 @@
 ﻿using System;
 using Duck_Trainer;
+using Enviro;
 using HarmonyLib;
 using MelonLoader;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Duck_Trainer
         private static string _snowplowGUI = "Snowplow (Disable)";
 
         private static GeneralManager _generalManager;
-        private static EnviroSky _enviroSky;
+        private static EnviroWeatherModule _enviroweathermodule;
         private static Snowplow _snowplow;
         private static GameObject _snowplowObj;
 
@@ -99,7 +100,7 @@ namespace Duck_Trainer
             if (intro) return; // Check if Intro Scene is not loaded
             _generalManager = Object.FindObjectOfType<GeneralManager>();
             if (_generalManager == null) return; // Check if GeneralManager is Null
-            _enviroSky = Object.FindObjectOfType<EnviroSky>();
+            _enviroweathermodule = Object.FindObjectOfType<EnviroWeatherModule>();
             if (Input.GetKeyDown(Spawnduck)) {SpawnDuck();}
             if (Input.GetKeyDown(Openduck)) {OpenDuck();} // <-- For Christmas Event Only
             if (Input.GetKeyDown(OpenGUI)) {OpenMenu();}
@@ -282,7 +283,22 @@ namespace Duck_Trainer
 
         private static void WeatherChange() //Forces Weather to Clear
         {
-            _enviroSky.SetWeatherOverwrite(0);
+            //_enviroSky.SetWeatherOverwrite(0);
+            var basegm = SceneManager.GetActiveScene().name == "MainScene";
+            var snowdlc = SceneManager.GetActiveScene().name == "dlc2Env";
+            if (basegm)
+            {
+                _enviroweathermodule.ChangeWeather("Clear Sky");
+            }
+            else if (snowdlc)
+            {
+                _enviroweathermodule.ChangeWeather("Clear SkyWinter");
+            }
+            else
+            {
+                Instance.LoggerInstance.Error("Changing Weather is not support in Current Scene yet");
+            }
+            
         }
 
         private static void DuckMovement_Check() //Check if Movement Script is enable may change in the Future

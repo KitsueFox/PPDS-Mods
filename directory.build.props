@@ -74,6 +74,11 @@
             <Private>false</Private>
             <HintPath>$(MsBuildThisFileDirectory)Libs\Assembly-CSharp-firstpass.dll</HintPath>
         </Reference>
+        <Reference Include="Enviro3.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SpecificVersion>false</SpecificVersion>
+            <Private>false</Private>
+            <HintPath>$(MsBuildThisFileDirectory)Libs\Enviro3.Runtime.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <!-- Build Area-->
     <PropertyGroup>
