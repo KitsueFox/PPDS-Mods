@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.5", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.6", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Duck_Trainer
