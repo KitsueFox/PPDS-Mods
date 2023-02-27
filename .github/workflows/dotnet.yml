@@ -39,6 +39,7 @@ jobs:
         with:
           body_path: ReleaseChangelog.md
           files: |
+            Output/Debug/net472/CustomDucks.dll
             Output/Debug/net472/Duck Trainer.dll
             Output/Debug/net472/EventReenabler.dll
         env:

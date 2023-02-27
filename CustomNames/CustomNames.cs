@@ -1,13 +1,13 @@
-﻿using MelonLoader;
-using Newtonsoft.Json;
+﻿using Custom_Names;
 using HarmonyLib;
-using Custom_Names;
-using System.IO;
+using MelonLoader;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-using System;
 
 [assembly: MelonInfo(typeof(CustomNames), "CustomNames", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
@@ -21,10 +21,10 @@ namespace Custom_Names
 
         private static readonly KeyCode changename = KeyCode.Keypad0;
         private static GeneralManager _generalManager;
-        private static Saves _saves;
-        private static string _savePath = "./UserData/CustomNames.json";
+        private static readonly string _savePath = "./UserData/CustomNames.json";
         private static string _savecontent;
-        public static Dictionary<string, string> _duckNames = new Dictionary<string, string>();
+        public static Dictionary<string, string> _duckNames = new();
+        public static Dictionary<string, int> _ducks = new();
         public static Action<string, string> _duckNameChanged;
 
         public override void OnEarlyInitializeMelon()
@@ -34,15 +34,18 @@ namespace Custom_Names
 
         public override void OnInitializeMelon()
         {
-            if (!File.Exists(_savePath)) 
-            { 
-                File.Create(_savePath); 
+            //Save File
+            if (!File.Exists(_savePath))
+            {
+                File.Create(_savePath);
             }
             else
             {
                 _savecontent = File.ReadAllText(_savePath);
                 _duckNames = JsonConvert.DeserializeObject<Dictionary<string, string>>(_savecontent);
             }
+
+            //Harmony Patching
             var harmony = new HarmonyLib.Harmony("Custom_Names");
             try
             {
@@ -61,19 +64,14 @@ namespace Custom_Names
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            //Scene
+            //Hook GeneralManager
             if ("Intro" != sceneName)
             {
+                _ducks.Clear();
                 _generalManager = Object.FindObjectOfType<GeneralManager>();
                 if (_generalManager == null)
                 {
                     _instance.LoggerInstance.Error("General Manager Didn't Hook!!");
-                    return;
-                }
-                _saves = Object.FindObjectOfType<Saves>();
-                if (_saves == null)
-                {
-                    _instance.LoggerInstance.Error("SavesManager did not hook");
                     return;
                 }
             }
@@ -96,7 +94,7 @@ namespace Custom_Names
             if (currentduck == null) { _instance.LoggerInstance.Error("Duck Not selected"); return; }
             currentduck.NameChanged(currentduck.duckID, clipboard);
             _instance.LoggerInstance.Msg("Duck: " + currentduck.duckID + " | Duck Name: " + clipboard);
-            
+
             Apply_Name(currentduck.duckID, clipboard);
         }
 
@@ -108,7 +106,7 @@ namespace Custom_Names
 
         private static void Apply_Name(string duckID, string newduckName)
         {
-            if (_duckNames.ContainsKey(duckID)) 
+            if (_duckNames.ContainsKey(duckID))
             {
                 _duckNames[duckID] = newduckName;
             }
@@ -116,11 +114,7 @@ namespace Custom_Names
             {
                 _duckNames.Add(duckID, newduckName);
             }
-            Action<string, string> duckNameChanged = _duckNameChanged;
-            if (duckNameChanged != null)
-            {
-                duckNameChanged(duckID, newduckName);
-            }
+            _duckNameChanged?.Invoke(duckID, newduckName);
             _savecontent = JsonConvert.SerializeObject(_duckNames, Formatting.Indented);
             File.WriteAllText(_savePath, _savecontent);
         }
@@ -129,10 +123,26 @@ namespace Custom_Names
         [HarmonyPatch(typeof(GeneralManager), "AddDuck")]
         public class GeneralManager_AddDuck
         {
-            static void Postfix(DuckManager duckManager, string duckID, bool unlock = true, bool addToList = true)
+            static void Postfix(ref GeneralManager __instance ,DuckManager duckManager, string duckID, bool unlock = true, bool addToList = true) //TODO: Fix Add 2
             {
-                var duckNames = CustomNames.GetName(duckID);
-                duckManager.NameChanged(duckID, duckNames);
+                int count = 0;
+                if (CustomNames._ducks.ContainsKey(duckID))
+                {
+                    count = CustomNames._ducks[duckID];
+                    CustomNames._ducks[duckID]++;
+                }
+                else
+                {
+                    CustomNames._ducks[duckID] = 1;
+                }
+                string modifiedDuckID = duckID;
+                if (count > 0)
+                {
+                    modifiedDuckID += "_" + count;
+                }
+                duckManager.duckID = modifiedDuckID;
+                var duckNames = CustomNames.GetName(modifiedDuckID);
+                duckManager.NameChanged(modifiedDuckID, duckNames);
             }
         }
         [HarmonyPatch(typeof(GeneralManager), "Start")]

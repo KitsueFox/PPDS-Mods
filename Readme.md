@@ -10,8 +10,8 @@ responsible for you save data being corrupted, Please backup before modding the 
 
 # **You need at least MelonLoader v0.5.7!**
 
-## Current Mods
-- - -
+# Current Mods
+
 ## Duck Trainer
 **Achievements will be disabled by default to prevent cheating. If you wish to cheat anyways edit the `MelonPreferences.cfg`**
 
@@ -26,6 +26,18 @@ responsible for you save data being corrupted, Please backup before modding the 
 * Snowplow Controls
 
 *Make sure to have one Movement Controls on at a time*
+
+## Custom Names
+Instructions: 
+* Copy a name to your clipboard
+* Press Num0
+* Profit!
+
+This mod allows better customization for naming the ducks and even change the color and style of the name tag with [Rich Text](https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html) as shown down below
+![Placid_Plastic_Duck_Simulator_2T1JtRodId](https://user-images.githubusercontent.com/80623201/221664098-8278bb96-da26-464d-89a2-20a516d8ba23.jpg)
+
+It's also allows the same duck to have a different name and longer names as shown in the video below
+[![CustomName Demo](https://img.youtube.com/vi/kDhJ9IOkwtg/0.jpg)](https://www.youtube.com/watch?v=kDhJ9IOkwtg)
 
 ## Event Reenabler
 Adds back the Ducks from the Christmas Event. Incase you missed it or accidentally lost your save file.
