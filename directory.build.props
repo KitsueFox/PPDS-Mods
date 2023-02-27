@@ -1,6 +1,11 @@
 <Project>
     <!-- Unity Dependencies -->
     <ItemGroup Condition="'$(NoModReferences)' != 'true'">
+		<Reference Include="Newtonsoft.Json, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+			<SpecificVersion>false</SpecificVersion>
+			<Private>false</Private>
+			<HintPath>$(MsBuildThisFileDirectory)Libs\Newtonsoft.Json.dll</HintPath>
+		</Reference>
         <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <SpecificVersion>false</SpecificVersion>
             <Private>false</Private>
@@ -87,10 +92,9 @@
     </ItemGroup>
     <!-- Build Area-->
     <PropertyGroup>
-        <OutputPath>$(SolutionDir)\Output\$(Configuration)\</OutputPath>
-        <BaseIntermediateOutputPath>$(SolutionDir)\Output</BaseIntermediateOutputPath>
-        <IntermediateOutputPath>$(BaseIntermediateOutputPath)\tmp\$(Configuration)\</IntermediateOutputPath>
-        <CopyToPPDS Condition="'$(CopyToPPDS)'!='false'">true</CopyToPPDS>
+		<OutputPath>$(MsBuildThisFileDirectory)\Output\$(Configuration)\</OutputPath>
+		<LangVersion>preview</LangVersion>
+		<CopyToPPDS Condition="'$(CopyToPPDS)'!='false'">true</CopyToPPDS>
     </PropertyGroup>
     <!-- Copy to Mod Folder -->
     <PropertyGroup Condition="'$(PPDSPath)'==''">

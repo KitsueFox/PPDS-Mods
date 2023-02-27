@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 
-[assembly: MelonInfo(typeof(EventReenable), "Event Reenable", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(EventReenable), "Event Reenabler", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Event_Reenable

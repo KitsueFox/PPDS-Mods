@@ -37,9 +37,7 @@ namespace Duck_Trainer
         private static string _snowplowGUI = "Snowplow (Disable)";
 
         private static GeneralManager _generalManager;
-        private static EnviroWeatherModule _enviroweathermodule;
         private static Snowplow _snowplow;
-        private static GameObject _snowplowObj;
 
         //Melonloader Area
         public override void OnEarlyInitializeMelon()
@@ -86,10 +84,20 @@ namespace Duck_Trainer
             {
                 MelonEvents.OnGUI.Unsubscribe(DrawWarning);
             }
+
             if ("dlc2Env" == sceneName)
             {
-                _snowplowObj = GameObject.Find("Snowplow");
                 _snowplow = Object.FindObjectOfType<Snowplow>();
+            }
+
+            if ("Intro" != sceneName)
+            {
+                _generalManager = Object.FindObjectOfType<GeneralManager>();
+                if (_generalManager == null)
+                {
+                    Instance.LoggerInstance.Error("General Manager Didn't Hook!!");
+                    return;
+                }
             }
         }
 
@@ -98,9 +106,6 @@ namespace Duck_Trainer
             var intro = SceneManager.GetActiveScene().name == "Intro";
 
             if (intro) return; // Check if Intro Scene is not loaded
-            _generalManager = Object.FindObjectOfType<GeneralManager>();
-            if (_generalManager == null) return; // Check if GeneralManager is Null
-            _enviroweathermodule = Object.FindObjectOfType<EnviroWeatherModule>();
             if (Input.GetKeyDown(Spawnduck)) { SpawnDuck(); }
             if (Input.GetKeyDown(Openduck)) { OpenDuck(); } // <-- For Christmas Event Only
             if (Input.GetKeyDown(OpenGUI)) { OpenMenu(); }
@@ -214,7 +219,6 @@ namespace Duck_Trainer
             var gmsFX =
                 Traverse.Create(_generalManager).Field("seasonOpenContainerFX").GetValue() as ParticleSystem;
             var gmsFloat = new[] { 0.5f, 0.75f, 1.25f, 1.5f };
-            //instance.LoggerInstance.Msg(generalManager.Ducks.Count); //DEBUG ONLY
             var lastduck = _generalManager.CurrentDuck;
             _generalManager.ChangeDuck(0);
             for (var i = 0; i <= _generalManager.Ducks.Count; i++)
@@ -284,7 +288,7 @@ namespace Duck_Trainer
 
         private static void WeatherChange() //Forces Weather to Clear
         {
-            //_enviroSky.SetWeatherOverwrite(0);
+            var _enviroweathermodule = Object.FindObjectOfType<EnviroWeatherModule>();
             var basegm = SceneManager.GetActiveScene().name == "MainScene";
             var snowdlc = SceneManager.GetActiveScene().name == "dlc2Env";
             if (basegm)

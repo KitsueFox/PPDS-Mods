@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <ProjectGuid>{182DFBE3-BAA2-4949-BF94-D99B90C1514F}</ProjectGuid>
+        <ProjectGuid>{2DD7170A-80B7-4A26-B7BD-A3D23BAA0833}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Custom_Ducks</RootNamespace>
-        <AssemblyName>CustomDucks</AssemblyName>
+        <RootNamespace>Custom_Names</RootNamespace>
+        <AssemblyName>CustomNames</AssemblyName>
         <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <TargetFramework>net472</TargetFramework>
         <Deterministic>true</Deterministic>
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
-		<CopyToPPDS Condition="'$(CopyToPPDS)'!='false'">false</CopyToPPDS>
+		<ClearOutputDirectory>False</ClearOutputDirectory>
     </PropertyGroup>
     
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'net472' And ('$(CopyToPPDS)'=='true') And (Exists('$(PPDSPath)/Mods'))">
