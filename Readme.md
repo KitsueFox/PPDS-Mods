@@ -1,3 +1,5 @@
+# Due to my job, I'm unable to keep updating these mods. I'll archive the project for now, If you wish to fork this and keep modding feel free. I'll unarchive it once I start getting free time.
+
 # Placid Plastic Duck Simulator - Mods 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/KitsueFox/PPDS-Mods/dotnet.yml?style=for-the-badge)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/KitsueFox/PPDS-Mods?style=for-the-badge)
@@ -7,8 +9,6 @@
 This repository contains my mods
 for [Placid Plastic Duck Simulator](https://store.steampowered.com/app/1999360/Placid_Plastic_Duck_Simulator/). I'm not 
 responsible for you save data being corrupted, Please backup before modding the game!
-
-# Due to my job, I'm unable to keep updating these mods. If you wish to fork this and keep modding feel free but updates will be slow
 
 # **You need at least MelonLoader v0.5.7!**
 
