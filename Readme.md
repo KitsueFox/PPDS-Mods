@@ -1,4 +1,4 @@
-# Due to my job, I'm unable to keep updating these mods. I'll archive the project for now, If you wish to fork this and keep modding feel free. I'll unarchive it once I start getting free time.
+# My apologizes but due to life, I'm unable to keep updating these mods at this time. I'll archive the project for now, If you wish to fork this and keep modding feel free. I'll unarchive it once I start getting free time.
 
 # Placid Plastic Duck Simulator - Mods 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/KitsueFox/PPDS-Mods/dotnet.yml?style=for-the-badge)
