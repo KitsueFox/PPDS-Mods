@@ -89,6 +89,11 @@
             <Private>false</Private>
             <HintPath>$(MsBuildThisFileDirectory)Libs\Enviro3.Runtime.dll</HintPath>
         </Reference>
+        <Reference Include="Fusion.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SpecificVersion>false</SpecificVersion>
+            <Private>false</Private>
+            <HintPath>$(MsBuildThisFileDirectory)Libs\Fusion.Runtime.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <!-- Build Area-->
     <PropertyGroup>

@@ -6,12 +6,11 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>Custom_Names</RootNamespace>
         <AssemblyName>CustomNames</AssemblyName>
-        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <AssemblyVersion>0.1.1.0</AssemblyVersion>
         <TargetFramework>net472</TargetFramework>
         <Deterministic>true</Deterministic>
         <FileAlignment>512</FileAlignment>
         <LangVersion>latest</LangVersion>
-		<ClearOutputDirectory>False</ClearOutputDirectory>
     </PropertyGroup>
     
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'net472' And ('$(CopyToPPDS)'=='true') And (Exists('$(PPDSPath)/Mods'))">

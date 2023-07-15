@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-[assembly: MelonInfo(typeof(CustomNames), "CustomNames", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(CustomNames), "CustomNames", "0.1.1", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 
@@ -28,6 +28,7 @@ namespace Custom_Names
         public static bool NewDuck = false;
         public static Dictionary<string, string> _duckNames = new();
         public static Dictionary<string, int> _ducks = new();
+        public static DuckManager currentduck;
 
         public override void OnEarlyInitializeMelon()
         {
@@ -55,10 +56,10 @@ namespace Custom_Names
             try
             {
                 harmony.PatchAll(typeof(GeneralManager_AddDuck));
-                _instance.LoggerInstance.Msg("General Manager Start Patched!");
-
-                harmony.PatchAll(typeof(GeneralManager_Start));
                 _instance.LoggerInstance.Msg("General Manager Add Patched!");
+
+                //harmony.PatchAll(typeof(GeneralManager_Start));
+                //_instance.LoggerInstance.Msg("General Manager Start Patched!");
 
                 harmony.PatchAll(typeof(SpawnUpdate_Patch));
                 _instance.LoggerInstance.Msg("Spawn Update Patched!");
@@ -88,9 +89,16 @@ namespace Custom_Names
         public override void OnLateUpdate()
         {
             var intro = SceneManager.GetActiveScene().name == "Intro";
-
+            
             if (intro) { return; } // Check if Intro Scene is not loaded
             if (Input.GetKeyDown(changename)) { DuckRename(); }
+            
+            //Duck renaming can only occur OnLateUpdate, otherwise it won't rename when spawned! - Thank you pladisdev for solving this issue!
+            if (currentduck != null)
+            {
+                DuckRename(currentduck);
+                currentduck = null;
+            }
         }
 
         public static void DuckRename(DuckManager duckManager = null, string duckName = null) //Void can be used for other mods
@@ -137,8 +145,7 @@ namespace Custom_Names
         [HarmonyPatch(typeof(GeneralManager), "AddDuck")]
         public class GeneralManager_AddDuck
         {
-            //TODO: Fix Add 2 | Might be internal code \ Might be a bug in the game
-            //BUG: Duck Not Renaming while Spawning a New Duck
+            //TODO: Fix Add 2
             static void Postfix(ref GeneralManager __instance ,DuckManager duckManager, string duckID, bool unlock = true, bool addToList = true)
             {
                 int count = 0;
@@ -161,7 +168,7 @@ namespace Custom_Names
                 {
                     CustomNames._instance.LoggerInstance.Msg("New Duck!");
                     CustomNames.NewDuck = false;
-                    CustomNames.DuckRename(duckManager);
+                    CustomNames.currentduck = duckManager;
                 }
                 else
                 {
@@ -170,7 +177,7 @@ namespace Custom_Names
                 }
             }
         }
-        [HarmonyPatch(typeof(GeneralManager), "Start")]
+        /*[HarmonyPatch(typeof(GeneralManager), "Start")]
         public class GeneralManager_Start
         {
             static void Postfix(ref DuckManager ___base1Duck)
@@ -178,7 +185,7 @@ namespace Custom_Names
                 var duckNames = CustomNames.GetName("Duck1Base");
                 ___base1Duck.NameChanged("Duck1Base", duckNames);
             }
-        }
+        }*/
         [HarmonyPatch(typeof(GeneralManager), "SpawnUpdate")]
         public class SpawnUpdate_Patch
         {

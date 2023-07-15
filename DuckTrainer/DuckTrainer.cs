@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
-[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.6", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.7", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Duck_Trainer
@@ -61,9 +61,11 @@ namespace Duck_Trainer
                 harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowMovement));
                 Instance.LoggerInstance.Msg("SnowPlow Movement Patch");
 
-                if (_achievements) return;
-                harmony.PatchAll(typeof(DuckTrainerPatch.AchievementsDisabler));
-                Instance.LoggerInstance.Msg("Achievements Disabled!");
+                if (_achievements == false)
+                {
+                    harmony.PatchAll(typeof(DuckTrainerPatch.AchievementsDisabler));
+                    Instance.LoggerInstance.Msg("Achievements Disabled!");
+                }
             }
             catch (Exception e)
             {
@@ -96,7 +98,6 @@ namespace Duck_Trainer
                 if (_generalManager == null)
                 {
                     Instance.LoggerInstance.Error("General Manager Didn't Hook!!");
-                    return;
                 }
             }
         }
@@ -247,11 +248,12 @@ namespace Duck_Trainer
             }
         }
 
+
         private static void AllSpeak() //Make all Ducks Quack
         {
             var lastduck = _generalManager.CurrentDuck;
             _generalManager.ChangeDuck(0);
-            for (var i = 0; i <= _generalManager.Ducks.Count; i++)
+            for (var i = 0; i <= _generalManager.Ducks.Count-1; i++)
             {
                 _generalManager.ChangeDuck(i);
                 if (i >= _generalManager.Ducks.Count)
@@ -260,16 +262,13 @@ namespace Duck_Trainer
                     return;
                 }
 
-                if (_generalManager.Ducks[_generalManager.CurrentDuck] != null)
-                {
-                    _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>().PlaySound();
-                }
+                _generalManager.Ducks[_generalManager.CurrentDuck]?.GetComponent<DuckManager>().PlaySound();
             }
         }
 
         private static void AllRespawn() //Make all Ducks Respawn
         {
-            for (var i = 0; i <= _generalManager.Ducks.Count; i++)
+            for (var i = 0; i <= _generalManager.Ducks.Count-1; i++)
             {
                 _generalManager.ChangeDuck(i);
                 if (i >= _generalManager.Ducks.Count)
