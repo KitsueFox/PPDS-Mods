@@ -41,5 +41,6 @@ jobs:
           files: |
             Output/Debug/net472/CustomNames.dll
             Output/Debug/net472/Duck Trainer.dll
+            Output/Debug/net472/EventReenabler.dll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

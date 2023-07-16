@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 
-[assembly: MelonInfo(typeof(EventReenable), "Event Reenabler", "0.1.0", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
+[assembly: MelonInfo(typeof(EventReenable), "Event Reenabler", "0.1.1", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
 
 namespace Event_Reenable
@@ -19,6 +19,7 @@ namespace Event_Reenable
         {
             _instance = this;
         }
+
         public override void OnInitializeMelon()
         {
             var harmony = new HarmonyLib.Harmony("Event_Reenable");
