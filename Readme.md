@@ -7,6 +7,7 @@
 ## Looking for help
 I'm far too busy with work these days to program as this was a fun side project, Please consider helping if you want or have free time. I'll try to continue to fixing the bugs as soon as I can.
 
+## Repo info
 This repository contains my mods
 for [Placid Plastic Duck Simulator](https://store.steampowered.com/app/1999360/Placid_Plastic_Duck_Simulator/). I'm not 
 responsible for you save data being corrupted, Please backup before modding the game! Updates for the Mods will be slow due to work and do not request mods, I will not make them! You can Fork the project and make a pull request if you want.
