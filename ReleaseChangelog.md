@@ -1,8 +1,13 @@
 ## Changes:
-***Updated Libraries to Support the Multiplayer Changes to the game (I have not tested these mods on Multiplayer)**
 
-*Fixed overflow bug on Duck Trainer
+*: Fixed Achievements not enabling - #6
 
-*Fixed bug where New Ducks weren't renamed on spawn on Custom Name
+# Temporary Fix for EventReenable
 
-"There's a new bug where there's a string limit on the names on Custom Name (*mostlikey due to Multiplayer*)"
+1) Goto `%appdata%\..\LocalLow\Turbolento Games\Placid Plastic Duck Simulator`
+
+2) Rename or Delete `Ducks.sav`
+
+3) Start Game and Play
+
+*This is probably a bug that is part of the game*

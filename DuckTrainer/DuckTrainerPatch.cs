@@ -79,8 +79,17 @@ namespace Duck_Trainer
         {
             static bool Prefix(ref AchievementType achievement)
             {
-                DuckTrainer.Instance.LoggerInstance.Msg("Achievements Disable! You missed " + achievement.ToString());
-                return false;
+                if (DuckTrainer.Achievements == false) {
+                    DuckTrainer.Instance.LoggerInstance.Msg(
+                        "Achievements Disable! You missed " + achievement.ToString());
+                    return false;
+                }
+                else
+                {
+                    DuckTrainer.Instance.LoggerInstance.Msg(
+                        "Achievement Collected " + achievement.ToString());
+                    return true;
+                }
             }
         }
     }

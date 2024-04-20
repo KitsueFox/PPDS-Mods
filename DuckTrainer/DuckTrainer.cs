@@ -26,7 +26,7 @@ namespace Duck_Trainer
         private static readonly KeyCode FlyDuck = KeyCode.Space;
 
         private static bool _modMenu;
-        private static bool _achievements;
+        public static bool Achievements;
         public static bool DuckMove;
         public static bool DuckRespawn;
         public static bool CtrlSnowPlow;
@@ -49,7 +49,7 @@ namespace Duck_Trainer
         public override void OnInitializeMelon()
         {
             DuckTrainerSettings.RegisterSettings();
-            _achievements = DuckTrainerSettings.Achievements.Value;
+            Achievements = DuckTrainerSettings.Achievements.Value;
             var harmony = new HarmonyLib.Harmony("Duck_Trainer");
             try
             {
@@ -61,10 +61,9 @@ namespace Duck_Trainer
 
                 harmony.PatchAll(typeof(DuckTrainerPatch.SnowPlowMovement));
                 Instance.LoggerInstance.Msg("SnowPlow Movement Patch");
-
-                if (_achievements == false)
-                {
-                    harmony.PatchAll(typeof(DuckTrainerPatch.AchievementsDisabler));
+                
+                harmony.PatchAll(typeof(DuckTrainerPatch.AchievementsDisabler));
+                if (!Achievements) {
                     Instance.LoggerInstance.Msg("Achievements Disabled!");
                 }
             }
@@ -79,7 +78,7 @@ namespace Duck_Trainer
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName) //Check if DLC Scene is Active
         {
-            if ("Intro" == sceneName && !_achievements)
+            if ("Intro" == sceneName && !Achievements)
             {
                 MelonEvents.OnGUI.Subscribe(DrawWarning, 100);
             }
@@ -134,7 +133,7 @@ namespace Duck_Trainer
             GUI.contentColor = Color.white;
             GUI.backgroundColor = backgroundcolor;
             GUI.Box(new Rect(Screen.width / 2 - 150, 1f, 350f, 290f), "");
-            if (!_achievements)
+            if (!Achievements)
             {
                 GUI.Label(new Rect(Screen.width / 2 - 50, 250f, 150f, 20f), "Achievements Disable!", centerstyle);
             }
