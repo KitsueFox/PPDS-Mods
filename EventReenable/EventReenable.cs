@@ -63,9 +63,9 @@ namespace Event_Reenable
                 {
                     ducksPerRarity[0].Add(commonDucks[i].duckID, commonDucks[i].duckRef);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    EventReenable._instance.LoggerInstance.Msg("\x1b[32m[HarmonyPatch] " + e);
                 }
             }
         }

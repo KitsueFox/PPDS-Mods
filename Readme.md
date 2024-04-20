@@ -46,6 +46,9 @@ It's also allows the same duck to have a different name and longer names as show
 ## Event Reenabler
 Adds back the Ducks from the Christmas Event. Incase you missed it or accidentally lost your save file.
 
+### [Known Issues!]
+* Ducks won't spawn when mod is enabled. [Temporary Fix](https://github.com/KitsueFox/PPDS-Mods/issues/7#issuecomment-2067775359)
+
 ## Installation
 To install these mods, you will need to install [MelonLoader](https://discord.gg/2Wn3N2P) (discord link, see \#how-to-install).
 Then, you will have to put mod .dll files from [releases](https://github.com/KitsueFox/PPDS-Mods/releases) into the `Mods` folder of your game directory
