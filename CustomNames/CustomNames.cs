@@ -25,7 +25,7 @@ namespace Custom_Names
         private static readonly string _savePath = "./UserData/CustomNames.json";
         private static string _savecontent;
         public static bool AutoName;
-        public static bool NewDuck = false;
+        public static bool NewDuck;
         public static Dictionary<string, string> _duckNames = new();
         public static Dictionary<string, int> _ducks = new();
         public static DuckManager currentduck;
@@ -81,7 +81,6 @@ namespace Custom_Names
                 if (_generalManager == null)
                 {
                     _instance.LoggerInstance.Error("General Manager Didn't Hook!!");
-                    return;
                 }
             }
         }

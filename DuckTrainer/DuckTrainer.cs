@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
+// ReSharper disable PossibleLossOfFraction
 
 [assembly: MelonInfo(typeof(DuckTrainer), "Duck Trainer", "0.1.7", "BlackyFox", "https://github.com/KitsueFox/PPDS-Mods")]
 [assembly: MelonGame("Turbolento Games", "Placid Plastic Duck Simulator")]
@@ -139,7 +140,7 @@ namespace Duck_Trainer
             }
             GUI.Label(new Rect(Screen.width / 2 - 50, 270f, 150f, 20f), "Made By BlackyFox", centerstyle);
             if (GUI.Button(new Rect(Screen.width / 2 - 135, 20f, 150f, 50f), "Spawn Duck (K)")) { SpawnDuck(); }
-            if (GUI.Button(new Rect((float)(Screen.width / 2 - -35), 20f, 150f, 50f), "All Ducks Respawn (H)")) { AllRespawn(); }
+            if (GUI.Button(new Rect(Screen.width / 2 - -35, 20f, 150f, 50f), "All Ducks Respawn (H)")) { AllRespawn(); }
             if (GUI.Button(new Rect(Screen.width / 2 - 135, 80f, 150f, 50f), "All Duck Quack")) { AllSpeak(); }
             if (GUI.Button(new Rect(Screen.width / 2 - -35, 80f, 150f, 50f), _duckMoveGUI))
             { DuckMovement_Check(); }
@@ -148,6 +149,11 @@ namespace Duck_Trainer
             { DuckRespawn_Check(); }
             if (GUI.Button(new Rect(Screen.width / 2 - 135, 200f, 150f, 50f), _snowplowGUI)) { SnowPlow(); }
             if (GUI.Button(new Rect(Screen.width / 2 - -35, 200f, 150f, 50f), "Mod Page")) { Application.OpenURL(url); }
+        }
+
+        private static void Chatbox()
+        {
+            
         }
 
         private static void DrawWarning()

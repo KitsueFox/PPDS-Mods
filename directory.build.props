@@ -61,7 +61,7 @@
             <Private>false</Private>
             <HintPath>$(MsBuildThisFileDirectory)Libs\UnityEngine.UI.dll</HintPath>
         </Reference>
-        <Reference Include="MelonLoader, Version=0.5.7.0, Culture=neutral, PublicKeyToken=null">
+        <Reference Include="MelonLoader, Version=0.6.2.0, Culture=neutral, PublicKeyToken=null">
             <SpecificVersion>true</SpecificVersion>
             <Private>false</Private>
             <HintPath>$(MsBuildThisFileDirectory)Libs\MelonLoader.dll</HintPath>
