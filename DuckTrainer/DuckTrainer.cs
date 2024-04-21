@@ -78,6 +78,7 @@ namespace Duck_Trainer
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName) //Check if DLC Scene is Active
         {
+            GameObject console;
             if ("Intro" == sceneName && !Achievements)
             {
                 MelonEvents.OnGUI.Subscribe(DrawWarning, 100);
@@ -98,6 +99,20 @@ namespace Duck_Trainer
                 if (_generalManager == null)
                 {
                     Instance.LoggerInstance.Error("General Manager Didn't Hook!!");
+                }
+                else
+                {
+                    try
+                    {
+                        console = GameObject.Find("BaseEnvironment/CommandConsole/Canvas");
+                        Instance.LoggerInstance.Msg(console.ToString());
+                        console.SetActive(true);
+                    }
+                    catch (Exception e)
+                    {
+                        Instance.LoggerInstance.Msg(e);
+                    }
+
                 }
             }
         }
@@ -129,6 +144,7 @@ namespace Duck_Trainer
             };
             var url = "https://github.com/KitsueFox/PPDS-Mods";
             var backgroundcolor = new Color(128f, 0f, 0f, 0.5f);
+            GameObject console;
 
             GUI.contentColor = Color.white;
             GUI.backgroundColor = backgroundcolor;

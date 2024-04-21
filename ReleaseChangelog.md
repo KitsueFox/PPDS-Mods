@@ -1,13 +1,9 @@
 ## Changes:
 
-*: Fixed Achievements not enabling - #6
+## Duck Trainer
++: Added Access to Built-in Dev Panel
 
-# Temporary Fix for EventReenable
+*: Fixed Achievements not enabling - [#6](https://github.com/KitsueFox/PPDS-Mods/issues/6)
 
-1) Goto `%appdata%\..\LocalLow\Turbolento Games\Placid Plastic Duck Simulator`
-
-2) Rename or Delete `Ducks.sav`
-
-3) Start Game and Play
-
-*This is probably a bug that is part of the game*
+## Event Reenabler
+*: Fixed Ducks not spawning - [#7](https://github.com/KitsueFox/PPDS-Mods/issues/7)

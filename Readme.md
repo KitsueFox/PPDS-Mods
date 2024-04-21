@@ -17,17 +17,17 @@ responsible for you save data being corrupted, Please backup before modding the 
 # Current Mods
 
 ## Duck Trainer
-**Achievements will be disabled by default to prevent cheating. If you wish to cheat anyways edit the `MelonPreferences.cfg`**
+**Achievements will be disabled by default to prevent cheating. If you wish to cheat anyways edit the `MelonPreferences.cfg`**.
 
 ### Open GUI "F9"
 
-* Spawn Ducks (K)
-* Duck Movement (**Space** *to fly*)
-* Duck All Quack
-* Respawn All Ducks (H)
-* Clear Weather
-* Ducks Auto Respawn (*Never Loose a duck again*)
-* Snowplow Controls
+* Spawn Ducks (K) - <span style="color:red"> **Host Only** </span>
+* Duck Movement (**Space** *to fly*) - <span style="color:red"> **Host Only** </span>
+* Duck All Quack - <span style="color:green"> **Global** </span>
+* Respawn All Ducks (H) - <span style="color:red"> **Host Only** </span>
+* Clear Weather - <span style="color:red"> **Local** </span>
+* Ducks Auto Respawn (*Never Loose a duck again*) - <span style="color:red"> **Host Only** <span>
+* Snowplow Controls 
 
 *Make sure to have one Movement Controls on at a time*
 

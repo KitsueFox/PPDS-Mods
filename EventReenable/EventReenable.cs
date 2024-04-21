@@ -27,9 +27,6 @@ namespace Event_Reenable
             {
                 harmony.PatchAll(typeof(SeasonalPatch_DLCManager));
                 _instance.LoggerInstance.Msg("DLCManager Patched!");
-
-                harmony.PatchAll(typeof(SeasonalPatch_GeneralManager));
-                _instance.LoggerInstance.Msg("GeneralManager Patched!");
             }
             catch (Exception e)
             {
@@ -48,26 +45,6 @@ namespace Event_Reenable
             ___seasonalSetToggle.gameObject.SetActive(true);
             ___seasonalSetToggle.Setup(true);
             return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(GeneralManager), "SetSeasonalSpawn")]
-    public class SeasonalPatch_GeneralManager //TODO: Try to find a better way of Fixing the Keyname Error
-    {
-        static void Prefix(DuckSet seasonalSet, List<Dictionary<string, AssetReference>> ducksPerRarity)
-        {
-            List<DuckEntry> commonDucks = seasonalSet.GetCommonDucks();
-            for (int i = 0; i < commonDucks.Count; i++)
-            {
-                try
-                {
-                    ducksPerRarity[0].Add(commonDucks[i].duckID, commonDucks[i].duckRef);
-                }
-                catch (Exception e)
-                {
-                    EventReenable._instance.LoggerInstance.Msg("\x1b[32m[HarmonyPatch] " + e);
-                }
-            }
         }
     }
 }
