@@ -121,7 +121,11 @@ namespace Duck_Trainer
         {
             var intro = SceneManager.GetActiveScene().name == "Intro";
 
-            if (intro) return; // Check if Intro Scene is not loaded
+            if (intro)
+            {
+                return;
+            } // Check if Intro Scene is not loaded 
+            
             if (Input.GetKeyDown(Spawnduck)) { SpawnDuck(); }
             if (Input.GetKeyDown(Openduck)) { OpenDuck(); } // <-- For Christmas Event Only
             if (Input.GetKeyDown(OpenGUI)) { OpenMenu(); }
