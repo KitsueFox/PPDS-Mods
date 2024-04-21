@@ -18,17 +18,17 @@ namespace Custom_Names
 {
     public class CustomNames : MelonMod
     {
-        public static CustomNames _instance;
+        internal static CustomNames _instance { get; set; }
 
         private static readonly KeyCode changename = KeyCode.Keypad0;
         private static GeneralManager _generalManager;
         private static readonly string _savePath = "./UserData/CustomNames.json";
-        private static string _savecontent;
-        public static bool AutoName;
-        public static bool NewDuck;
+        internal static string _savecontent { get; set; }
+        public static bool AutoName { get; set; }
+        public static bool NewDuck { get; set; }
         public static Dictionary<string, string> _duckNames = new();
         public static Dictionary<string, int> _ducks = new();
-        public static DuckManager currentduck;
+        public static DuckManager currentduck { get; set; }
 
         public override void OnEarlyInitializeMelon()
         {
@@ -57,9 +57,6 @@ namespace Custom_Names
             {
                 harmony.PatchAll(typeof(GeneralManager_AddDuck));
                 _instance.LoggerInstance.Msg("General Manager Add Patched!");
-
-                //harmony.PatchAll(typeof(GeneralManager_Start));
-                //_instance.LoggerInstance.Msg("General Manager Start Patched!");
 
                 harmony.PatchAll(typeof(SpawnUpdate_Patch));
                 _instance.LoggerInstance.Msg("Spawn Update Patched!");
@@ -176,15 +173,6 @@ namespace Custom_Names
                 }
             }
         }
-        /*[HarmonyPatch(typeof(GeneralManager), "Start")]
-        public class GeneralManager_Start
-        {
-            static void Postfix(ref DuckManager ___base1Duck)
-            {
-                var duckNames = CustomNames.GetName("Duck1Base");
-                ___base1Duck.NameChanged("Duck1Base", duckNames);
-            }
-        }*/
         [HarmonyPatch(typeof(GeneralManager), "SpawnUpdate")]
         public class SpawnUpdate_Patch
         {

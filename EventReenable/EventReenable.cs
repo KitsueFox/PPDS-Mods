@@ -13,7 +13,7 @@ namespace Event_Reenable
 
     public class EventReenable : MelonMod
     {
-        public static EventReenable _instance;
+        internal static EventReenable _instance { get; set; }
 
         public override void OnEarlyInitializeMelon()
         {
