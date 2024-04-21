@@ -17,7 +17,7 @@ namespace Duck_Trainer
 {
     public class DuckTrainer : MelonMod
     {
-        public static volatile DuckTrainer Instance;
+        internal static DuckTrainer Instance { get; set; }
 
         private static readonly KeyCode Spawnduck = KeyCode.K;
         private static readonly KeyCode Openduck = KeyCode.J;

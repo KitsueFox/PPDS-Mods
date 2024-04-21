@@ -21,12 +21,12 @@ responsible for you save data being corrupted, Please backup before modding the 
 
 ### Open GUI "F9"
 
-* Spawn Ducks (K) - <span style="color:red"> **Host Only** </span>
-* Duck Movement (**Space** *to fly*) - <span style="color:red"> **Host Only** </span>
-* Duck All Quack - <span style="color:green"> **Global** </span>
-* Respawn All Ducks (H) - <span style="color:red"> **Host Only** </span>
-* Clear Weather - <span style="color:red"> **Local** </span>
-* Ducks Auto Respawn (*Never Loose a duck again*) - <span style="color:red"> **Host Only** <span>
+* Spawn Ducks (K) - **Host Only**
+* Duck Movement (**Space** *to fly*) - **Host Only**
+* Duck All Quack - **Global**
+* Respawn All Ducks (H) - **Host Only**
+* Clear Weather - **Local**
+* Ducks Auto Respawn (*Never Loose a duck again*) - **Host Only**
 * Snowplow Controls 
 
 *Make sure to have one Movement Controls on at a time*
