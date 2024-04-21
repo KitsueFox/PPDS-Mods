@@ -17,7 +17,7 @@ namespace Duck_Trainer
 {
     public class DuckTrainer : MelonMod
     {
-        public static DuckTrainer Instance;
+        public static volatile DuckTrainer Instance;
 
         private static readonly KeyCode Spawnduck = KeyCode.K;
         private static readonly KeyCode Openduck = KeyCode.J;
@@ -171,7 +171,7 @@ namespace Duck_Trainer
 
         private static void Chatbox()
         {
-            
+            throw new NotImplementedException();
         }
 
         private static void DrawWarning()
@@ -196,7 +196,7 @@ namespace Duck_Trainer
 
                 MelonEvents.OnGUI.Subscribe(DrawMenu, 100);
                 EventSystem.current.SetSelectedGameObject(null);
-                if (Cursor.visible) return;
+                if (Cursor.visible) {return;}
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
@@ -257,7 +257,7 @@ namespace Duck_Trainer
 
                 var currentduck =
                     _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>();
-                if (!currentduck.IsInSeasonContainer) continue;
+                if (!currentduck.IsInSeasonContainer) {continue;}
                 _generalManager.AddDuck(currentduck, currentduck.duckID, true, false);
                 currentduck.OnSeasonClick();
                 if (gmsAudio != null && gmsFX != null)
@@ -345,10 +345,10 @@ namespace Duck_Trainer
 
         private static void DuckMovement() //Move Ducks by using WSAD and Space to Fly, TODO: Add Direction indicator
         {
-            if (!DuckMove) return;
-            if (_generalManager.DusckSelectionMode) return;
+            if (!DuckMove) {return;}
+            if (_generalManager.DusckSelectionMode) {return;}
             var currentduck = _generalManager.Ducks[_generalManager.CurrentDuck].GetComponent<DuckManager>();
-            if (currentduck == null) return;
+            if (currentduck == null) {return;}
             var cforce = currentduck.GetComponent<ConstantForce>();
             cforce.relativeForce = _movementInput * 20;
             if (Input.GetKey(FlyDuck))
