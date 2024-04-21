@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomDucks", "CustomDucks\CustomDucks.csproj", "{182DFBE3-BAA2-4949-BF94-D99B90C1514F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventReenable", "EventReenable\EventReenable.csproj", "{76692DF6-8A3D-48AD-9A3B-4A7CC5EF8CA4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomNames", "CustomNames\CustomNames.csproj", "{2DD7170A-80B7-4A26-B7BD-A3D23BAA0833}"

@@ -144,7 +144,6 @@ namespace Duck_Trainer
             };
             var url = "https://github.com/KitsueFox/PPDS-Mods";
             var backgroundcolor = new Color(128f, 0f, 0f, 0.5f);
-            GameObject console;
 
             GUI.contentColor = Color.white;
             GUI.backgroundColor = backgroundcolor;
