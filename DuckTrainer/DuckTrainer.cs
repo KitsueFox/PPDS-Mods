@@ -26,10 +26,10 @@ namespace Duck_Trainer
         private static readonly KeyCode FlyDuck = KeyCode.Space;
 
         private static bool _modMenu;
-        public static bool Achievements;
-        public static bool DuckMove;
-        public static bool DuckRespawn;
-        public static bool CtrlSnowPlow;
+        public static bool Achievements { get; set; }
+        public static bool DuckMove { get; set; }
+        public static bool DuckRespawn { get; set; }
+        public static bool CtrlSnowPlow { get; set; }
 
         private static Vector3 _movementInput;
         public static readonly float DistancetoResapwn = 500000f;

@@ -63,7 +63,6 @@ namespace Duck_Trainer
                 }
                 else if (DuckTrainer.CtrlSnowPlow && !DuckTrainer.DuckMove && !___isOn)
                 {
-                    //DuckTrainer.CtrlSnowPlow = false;
                     DuckTrainer.SnowPlow();
                     return true;
                 }
