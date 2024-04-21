@@ -169,11 +169,6 @@ namespace Duck_Trainer
             if (GUI.Button(new Rect(Screen.width / 2 - -35, 200f, 150f, 50f), "Mod Page")) { Application.OpenURL(url); }
         }
 
-        private static void Chatbox()
-        {
-            throw new NotImplementedException();
-        }
-
         private static void DrawWarning()
         {
             var style = new GUIStyle(GUI.skin.label)
