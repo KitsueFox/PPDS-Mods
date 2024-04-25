@@ -26,8 +26,8 @@ namespace Custom_Names
         internal static string _savecontent { get; set; }
         public static bool AutoName { get; set; }
         public static bool NewDuck { get; set; }
-        public static Dictionary<string, string> _duckNames = new();
-        public static Dictionary<string, int> _ducks = new();
+        public static Dictionary<string, string> _duckNames { get; set; } = new();
+        public static Dictionary<string, int> _ducks { get; set; } = new();
         public static DuckManager currentduck { get; set; }
 
         public override void OnEarlyInitializeMelon()

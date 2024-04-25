@@ -175,6 +175,7 @@ namespace Duck_Trainer
             {
                 alignment = TextAnchor.MiddleLeft,
                 fontSize = 20,
+                fontStyle = FontStyle.Bold
             };
 
             GUI.contentColor = Color.red;
