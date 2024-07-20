@@ -1,5 +1,8 @@
 using HarmonyLib;
+using System.Reflection.Emit;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Duck_Trainer
 {
@@ -91,5 +94,17 @@ namespace Duck_Trainer
                 }
             }
         }
+
+        /*[HarmonyPatch(typeof(StageSelector), "ChooseStage")]
+        public class StageSelectorPatch
+        {
+            static bool Prefix(ref StageSelector __instance, GameObject ___nextStageArrow, GameObject ___prevStageArrow, Text ___stageNameText)
+            {
+                bool flag = true;
+                ___nextStageArrow.SetActive(flag);
+                ___prevStageArrow.SetActive(flag);
+                
+            }
+        }*/
     }
 }

@@ -66,6 +66,8 @@ namespace Duck_Trainer
                 if (!Achievements) {
                     Instance.LoggerInstance.Msg("Achievements Disabled!");
                 }
+                /*harmony.PatchAll(typeof(DuckTrainerPatch.StageSelectorPatch));
+                Instance.LoggerInstance.Msg("Stage Selector Patched!");*/
             }
             catch (Exception e)
             {
