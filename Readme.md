@@ -1,11 +1,11 @@
+# I've Offically Abandoned this Project
+my reasoning is that, My friends and I have other instersts in games and I don't really have much time to mod either. I don't plan on reviving this project so feel free to fork this mod and play around with it. You can use "dotPeek" or "dnspy" to look at the games code and "Visual Studio" , "Visual Studio Code", or "JetBrains Rider" to code. Happy Modding and Goodbye
+
 # Placid Plastic Duck Simulator - Mods
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/KitsueFox/PPDS-Mods/dotnet.yml?style=for-the-badge)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/KitsueFox/PPDS-Mods?style=for-the-badge)
 ![MelonLoader Version](https://img.shields.io/badge/Melonloader-0.6.3-red?style=for-the-badge&)
 ![GitHub](https://img.shields.io/github/license/KitsueFox/PPDS-Mods?style=for-the-badge)
-
-## Looking for help
-I'm far too busy with work these days to program as this was a fun side project, Please consider helping if you want or have free time. I'll try to continue to fixing the bugs as soon as I can.
 
 ## Repo info
 This repository contains my mods
